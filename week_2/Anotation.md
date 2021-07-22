@@ -46,3 +46,48 @@ Apos gerar as informações no tsconfig.json irei dentro do objeto compilerOptio
 ```
 
 Agora irei renomear os meus arquivos com .js para tsx e bora codar 🚀
+<br><br>
+
+## INTEGRANDO STYLEDS COMPONENTS NO APP
+
+Primeiro passo irei instalar a seguinte lib:
+
+```bash
+❯ yarn add styled-components
+❯ yarn add @types/styled-components-react-native -D
+```
+
+Agora dentro do meu componente ou page irei criar um arquivo chamado styles.ts, onde irei configurar meu css in ts
+
+Exemplo basico de utilizacao:
+
+### index.ts
+
+```ts
+import styled from "styled-components/native";
+export const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Title = styled.Text`
+  font-size: 30px;
+`;
+```
+
+### index.tsx
+
+```tsx
+import React from "react";
+
+import { Container, Title } from "./styles";
+
+export function Dashboard() {
+  return (
+    <Container>
+      <Title>Dashboard</Title>
+    </Container>
+  );
+}
+```
