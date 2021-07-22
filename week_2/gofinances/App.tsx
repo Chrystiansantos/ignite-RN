@@ -6,8 +6,8 @@ import { Welcome } from './src/Components/Welcome';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Welcome title="Bare WorkFlow com Ts"></Welcome>
-      <StatusBar style="auto" />
+      <Welcome title="Bare WorkFlow com Ts "></Welcome>
+              <StatusBar style="auto" />
     </View>
   );
 }
