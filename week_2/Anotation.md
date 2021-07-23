@@ -135,12 +135,74 @@ export const Title = styled.Text`
 Para corrigir o erro de tipagem que ocorre ao usar o estilo global, irei criar um arquivo styled.d.ts dentro de styles e irei adicionar a seguinte configuracao:
 
 ```ts
-import 'styled-components';
-import theme from './theme';
+import "styled-components";
+import theme from "./theme";
 
-declare module 'styled-components' {
+declare module "styled-components" {
   type themeType = typeof theme;
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface DefaultTheme extends themeType {}
 }
+```
+
+### Usando fonts personalizadas
+
+Irei acessar o google fonts e escolher as fonts desejadas.
+
+A seguir irei executar o seguinte comando para instalar a font no nosso app:
+
+```bash
+❯ expo install expo-font @expo-google-fonts/poppins
+```
+
+Irei no arquivo App.tsx para configurar a fonte pois la e primeiro arquivo a ser executado entao irei fazer a seguinte config:
+
+Para conseguir segurar a minha splashScreen ate que seja carregado as fontes precisarei instalar a seguinte lib:
+
+```bash
+  ❯ expo install expo-app-loading
+```
+
+```tsx
+// irei importar as fonts
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
+// aqui ele ira carregar as fonts e pode ser que demore um pouco entao quando todos estiverem carregados ele ira retornar true dentro dessa constante contsLoaded
+
+const [fontsLoaded] = useFonts({
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+});
+
+// se o fontLoaded nao estiver carregador as font irei sergurar a splash usando o seguinde comando
+if (!fonstLoaded) {
+  return <AppLoading />;
+}
+
+return (
+  <ThemeProvider theme={theme}>
+    <Dashboard />
+  </ThemeProvider>
+);
+```
+
+Apos isso irei no meu theme dentro da pasta global e posso configurar minhas fontes para serem usadas a partir de la da seguinte forma:
+
+```ts
+export default {
+  colors: {
+    primary: "#5636d3",
+  },
+  fonts: {
+    regular: "Poppins_400Regular",
+    medium: "Poppins_500Medium",
+    bold: "Poppins_700Bold",
+  },
+};
 ```
