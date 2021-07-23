@@ -91,3 +91,56 @@ export function Dashboard() {
   );
 }
 ```
+
+### Criando estilos globais
+
+Dentro de src irei criar uma pasta chamada global, onde irei deixar todas as configurações globais do meu app, irei criar uma pasta styles, e dentro dessa pasta irei criar um arquivo chama theme.ts, onde irei configurar o estilo global. <b>src/global/styles/theme.ts</n>
+
+Dentro desse arquivo irei fazer um export default de um objeto da seguitne forma:
+
+```ts
+export default {
+  colors: {
+    primary: "#5636d3",
+    // ...aqui embaixo coloco as demais configuracoes
+  },
+};
+```
+
+Irei no meu app e irei importar o ThemeProvider de dentro do styled-components, e importar tbm o meu theme que acabei de criar em styles, e irei envolver minha app com o ThemeProvider passando o theme como props da seguitne forma:
+
+```tsx
+import React from "react";
+import { ThemeProvider } from "styled-components";
+import theme from "./src/global/styles/theme";
+import { Dashboard } from "./src/Pages/Dashboard";
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <Dashboard />
+    </ThemeProvider>
+  );
+}
+```
+
+Usando o estilo global:
+
+```ts
+export const Title = styled.Text`
+  color: ${({ theme }) => theme.colors.primary};
+`;
+```
+
+Para corrigir o erro de tipagem que ocorre ao usar o estilo global, irei criar um arquivo styled.d.ts dentro de styles e irei adicionar a seguinte configuracao:
+
+```ts
+import 'styled-components';
+import theme from './theme';
+
+declare module 'styled-components' {
+  type themeType = typeof theme;
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface DefaultTheme extends themeType {}
+}
+```
