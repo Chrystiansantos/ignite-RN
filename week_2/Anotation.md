@@ -258,3 +258,13 @@ import { Icon } from "./styles";
 
 return <Icon name="power" />;
 ```
+
+Acessando props de um elemento pelo styleds componentes. Ao inves de passar as props pelo TSX posso passar pelo style, dessa forma deixando o TSX de forma mais didatica, sendo assim no style, irei usar o atributo attrs apos o nome do elemento da seguinte maneira:
+
+```ts
+export const HighlightCards = styled.ScrollView.attrs({
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+  contentContainerStyle: { paddingHorizontal: 24 },
+})``;
+```
