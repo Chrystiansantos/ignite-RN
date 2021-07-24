@@ -268,3 +268,23 @@ export const HighlightCards = styled.ScrollView.attrs({
   contentContainerStyle: { paddingHorizontal: 24 },
 })``;
 ```
+
+## Ajustando a aultura da statusBar utilizando a lib react-native-iphone-x-helper
+
+Primeiro passo irei instalar a seguinte lib:
+
+```bash
+  ❯ yarn add react-native-iphone-x-helper
+```
+
+No meu arquivo de styles irei fazer a seguinte importacao:
+
+```ts
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+
+export const UserWrapper = styled.View`
+  margin-top: ${getStatusBarHeight() + 28}px;
+`;
+```
+
+Dessa forma ele ira considerar os 28pxs abaixo da statusbar, a lib funcionou para meu android

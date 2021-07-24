@@ -27,7 +27,6 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <StatusBar backgroundColor="#5636d3" />
       <Dashboard />
     </ThemeProvider>
   );
