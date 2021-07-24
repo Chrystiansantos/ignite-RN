@@ -206,3 +206,55 @@ export default {
   },
 };
 ```
+
+## Lib para utilizar fonts responsivas:
+
+Irei instalar a seguinte lib para utilizacao de fonts, em alguns devices ela ira adptar melhor a fonte:
+
+```bash
+❯ yarn add react-native-responsive-fontsize
+```
+
+Apos a instalacao irei no meu arquivo styles, e irei usar da seguinte forma, dessa forma ele usa uma medida de proporção será a mesma em diferentes dispositivos
+
+```ts
+import { RFPercentage } from "react-native-responsive-fontsize";
+// Utilizo para porcentagens
+export const Header = styled.View`
+  height: ${RFPercentage(42)}px;
+`;
+// Utilizo para valores fixos
+export const Photo = styled.Image`
+  width: ${RFValue(55)};
+  height: ${RFValue(55)};
+`;
+```
+
+## Usando icones no app
+
+No expo por padrao ja temos uma lib para lidarmos com icones chama @expo/vector-icons, para usar-los precisamos fazer basicamente o seguinte:
+
+Para conseguir ver todos os icones abrangentes por essa lib posso acessar o site https://icons.expo.fyi/
+
+A seguir irei no meu style.ts e irei importar o lib de icons que desejo utilizar, apos isso irei criar uma constante e irei exporta-la atribuindo a ela o styled(COM_NOME_DA_LI_ICON), e caso deseje estilizado irei colocar crase e adicionar a estilizacao da seguitne forma:
+
+styles.ts
+
+```ts
+import styled from "styled-components/native";
+import { RFValue } from "react-native-responsive-fontsize";
+import { Feather } from "@expo/vector-icons";
+
+export const Icon = styled(Feather)`
+  color: ${({ theme }) => theme.colors.secondary};
+  font-size: ${RFValue(24)}px;
+`;
+```
+
+Dentro do meu TSX irei importar esse componente e utiliza-lo da seguitne forma:
+
+```tsx
+import { Icon } from "./styles";
+
+return <Icon name="power" />;
+```
