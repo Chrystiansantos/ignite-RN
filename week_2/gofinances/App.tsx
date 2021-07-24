@@ -9,6 +9,7 @@ import {
 } from '@expo-google-fonts/poppins';
 
 import AppLoading from 'expo-app-loading';
+import { StatusBar } from 'react-native';
 import theme from './src/global/styles/theme';
 
 import { Dashboard } from './src/Pages/Dashboard';
@@ -26,6 +27,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <StatusBar backgroundColor="#5636d3" />
       <Dashboard />
     </ThemeProvider>
   );
