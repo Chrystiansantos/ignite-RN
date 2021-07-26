@@ -16,17 +16,19 @@ interface ICategory {
   icon: string;
 }
 
-interface ITransactionCardProps {
-  data: {
-    type: 'positive' | 'negative';
-    title: string;
-    amount: string;
-    category: ICategory;
-    date: string;
-  };
+export interface ITransactionCardProps {
+  type: 'positive' | 'negative';
+  title: string;
+  amount: string;
+  category: ICategory;
+  date: string;
 }
 
-export const TransactionCard = ({ data }: ITransactionCardProps) => {
+interface Props {
+  data: ITransactionCardProps;
+}
+
+export const TransactionCard = ({ data }: Props) => {
   return (
     <Container>
       <Title>{data.title}</Title>
