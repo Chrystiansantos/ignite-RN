@@ -280,7 +280,7 @@ Primeiro passo irei instalar a seguinte lib:
 No meu arquivo de styles irei fazer a seguinte importacao:
 
 ```ts
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 export const UserWrapper = styled.View`
   margin-top: ${getStatusBarHeight() + 28}px;
@@ -288,3 +288,40 @@ export const UserWrapper = styled.View`
 ```
 
 Dessa forma ele ira considerar os 28pxs abaixo da statusbar, a lib funcionou para meu android
+
+## Passando props para dentro do meu component do styled component:
+
+Primeiro passo irei criar uma interface com as props que irei passar dentro do style.ts, apos isso irei passar essa interface para o component, e dentro do componente no index irei passar as props, da seguinte maneira:
+
+```ts
+import { css } from "styled-components/native";
+interface IIconProps {
+  type: "up" | "down" | "total";
+}
+
+export const Icon = styled(Feather)<IIconProps>`
+  font-size: ${RFValue(40)}px;
+  ${(props) =>
+    props.type === "up" &&
+    css`
+      color: ${({ theme }) => theme.colors.success};
+    `};
+`;
+export const Container = styled.View<ITypeProps>`
+  background-color: ${({ theme, type }) =>
+    type === "total" ? theme.colors.secondary : theme.colors.shape};
+`;
+```
+
+```tsx
+export const HighlightCard = ({ type }: IHighlightCardProps) => {
+  return (
+    <Container type={type}>
+      <Header>
+        <Title type={type}>{title}</Title>
+        <Icon name={icon[type]} type={type} />
+      </Header>
+    </Container>
+  );
+};
+```
