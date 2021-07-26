@@ -325,3 +325,58 @@ export const HighlightCard = ({ type }: IHighlightCardProps) => {
   );
 };
 ```
+
+### Extendendo tipagem em components
+
+Ao extender a tipagem de um component no RN por exemplo de um input ele ira dar um erro ao passar o rest par a aquele component no style para isso irei fazer da seguinte forma:
+
+```ts
+import styled from "styled-components/native";
+import { TextInput } from "react-native";
+
+export const Container = styled(TextInput)``;
+```
+
+```tsx
+import { TextInputProps } from "react-native";
+import { Container } from "./styles";
+
+type IInputProps = TextInputProps;
+
+export const Input = ({ ...rest }: IInputProps) => {
+  return <Container {...rest} />;
+};
+```
+
+## Criando um component de input para ser reutilizado
+
+Irei na pasta components irei criar uma pasta chamada form onde irei armazenar os meu campos do form reutilizaveis("Input","Select", etc). Da seguite forma.
+
+```ts
+import styled from "styled-components/native";
+import { TextInput } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
+
+export const Container = styled(TextInput)`
+  width: 100%;
+  padding: 16px 18px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.text_dark};
+  font-size: ${RFValue(14)}px;
+  background-color: ${({ theme }) => theme.colors.shape};
+  border-radius: 5px;
+  margin-bottom: 8px;
+`;
+```
+
+```tsx
+import React from "react";
+import { TextInputProps } from "react-native";
+import { Container } from "./styles";
+
+type IInputProps = TextInputProps;
+
+export const Input = ({ ...rest }: IInputProps) => {
+  return <Container {...rest} />;
+};
+```
