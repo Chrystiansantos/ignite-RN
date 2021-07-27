@@ -6,7 +6,7 @@ interface ICategorySelectProps {
   title: string;
 }
 
-export const CategorySelect = ({ title }: ICategorySelectProps) => {
+export const CategorySelectButton = ({ title }: ICategorySelectProps) => {
   return (
     <Container>
       <Category>{title}</Category>
