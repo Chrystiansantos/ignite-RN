@@ -11,7 +11,6 @@ import {
 import AppLoading from 'expo-app-loading';
 import theme from './src/global/styles/theme';
 import { CategorySelect } from './src/Pages/CategorySelect';
-import { Dashboard } from './src/Pages/Dashboard';
 import { Register } from './src/Pages/Register';
 
 export default function App() {
@@ -27,9 +26,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <Dashboard /> */}
-      {/* <Register /> */}
-      <CategorySelect />
+      <Register />
     </ThemeProvider>
   );
 }

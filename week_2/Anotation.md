@@ -380,3 +380,17 @@ export const Input = ({ ...rest }: IInputProps) => {
   return <Container {...rest} />;
 };
 ```
+
+## Usando modal
+
+Primeiro passo irei importar o modal da seguinte forma:
+
+```tsx
+import { Modal } from "react-native";
+
+<Modal visible={false}>
+  <CategorySelect />
+</Modal>;
+```
+
+Farei da seguinte forma, para abrir o modal, visible sera responsavel por apresentar ou nao esse modal
