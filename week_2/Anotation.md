@@ -394,3 +394,66 @@ import { Modal } from "react-native";
 ```
 
 Farei da seguinte forma, para abrir o modal, visible sera responsavel por apresentar ou nao esse modal
+
+## Integrando React Hook Form com RN
+
+Primeiro passo irei instala-lo com o seguinte comando:
+
+```bash
+❯ yarn add react-hook-form
+```
+
+No React native nao tenho o form, igual na web, por isso no irei precisar usar um component chamado Controller, de dentro de react-hook-form.
+
+Em cada input obrigatoriamente preciso passar o componente controler do react-hook-form antes.
+
+Irei criar um novo componente chamando InputForm.tsx que sera o meu componente responsavel po controlar as informacoes digitadas no form
+
+Irei montar meu input do form da seguinte forma:
+
+```tsx
+import React from "react";
+import { Control, Controller } from "react-hook-form";
+import { TextInputProps } from "react-native";
+import { Input } from "../Input";
+
+import { Container } from "./styles";
+
+interface IInputFormProps extends TextInputProps {
+  control: Control;
+  name: string;
+}
+
+export const InputForm = ({ control, name, ...rest }: IInputFormProps) => {
+  return (
+    <Container>
+      <Controller
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Input onChangeText={onChange} value={value} {...rest} />
+        )}
+        name={name}
+      />
+    </Container>
+  );
+};
+```
+
+irei dentro do meu componente onde sera usando o form e irei importar o seguinte hook:
+
+```tsx
+import { useForm } from "react-hook-form";
+const { control, handleSubmit } = useForm();
+
+const handleRegister = form => {
+    const data = {};
+    console.log(form);
+  };
+
+// irei passar o control dessa maneira para dentro do meu input
+<InputForm control={control} name="name" placeholder="Nome" />
+<InputForm control={control} name="amount" placeholder="Preço" />
+
+// ao envovler o metodo pelo handleSubmit ele ira fazer o submit assim que eu clicar nele
+<Button onPress={handleSubmit(handleRegister)} title="Enviar" />
+```
