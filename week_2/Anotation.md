@@ -457,3 +457,56 @@ const handleRegister = form => {
 // ao envovler o metodo pelo handleSubmit ele ira fazer o submit assim que eu clicar nele
 <Button onPress={handleSubmit(handleRegister)} title="Enviar" />
 ```
+
+## Fechando o teclado ao clicar em qualquer area da tela
+
+irei importar o seguinte componente:
+
+```tsx
+import { TouchableWithoutFeedback } from "react-native";
+
+// Irei envolver ele por todo meu app
+
+return (
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    Interface do meu app
+  </TouchableWithoutFeedback>
+);
+```
+
+## Validando inputs nos forms:
+
+Primeiro passo irei instalar a lib:
+
+```bash
+❯ yarn add @hookform/resolvers yup
+```
+
+irei fazer a seguinte importacão:
+
+```ts
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+```
+
+Dentro do meu useForm irei passar a seguinte informação:
+
+```tsx
+const schema = Yup.object().shape({
+  name: Yup.string().required("Nome é obrigatório"),
+  amount: Yup.number()
+    .positive("O valor não pode ser negativo")
+    .typeError("Informe um valor númerico")
+    .required("O valor é obrigatorio"),
+});
+
+const {
+  control,
+  handleSubmit,
+  formState: { errors },
+} = useForm({
+  resolver: yupResolver(schema),
+});
+
+<InputForm error={errors.name && errors.name.message} />;
+```
