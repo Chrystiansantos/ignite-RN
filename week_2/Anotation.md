@@ -643,5 +643,14 @@ A seguir irei importar o seguinte metodo:
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 // Para armazenar as informações no meu device irei executar o seguinte metodo
-await AsyncStorage.setItem('chave', JSON.stringify(dadosSemprePrecisoConvertelosComJSON));
+await AsyncStorage.setItem(
+  "chave",
+  JSON.stringify(dadosSemprePrecisoConvertelosComJSON)
+);
+
+//removendo intens do asyncStorage
+const removeAll = async () => {
+  await AsyncStorage.removeItem(dataKey);
+};
+removeAll();
 ```
