@@ -510,3 +510,20 @@ const {
 
 <InputForm error={errors.name && errors.name.message} />;
 ```
+
+## Usando navegação, com tab navigation
+
+Primeiro passo irei instalar a lib, para fazer navegação:
+
+```bash
+❯ yarn add @react-navigation/native
+❯ yarn add react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
+```
+
+Para ios, precisarei acessar a pasta ios e rodar pod install.
+
+Agora no meu arquivo principal, (App.tsx) irei importar o seguinte:
+
+```tsx
+import "react-native-gesture-handler";
+```
