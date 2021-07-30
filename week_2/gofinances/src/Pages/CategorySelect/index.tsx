@@ -32,6 +32,8 @@ export const CategorySelect = ({
 }: ICategorySelectProps) => {
   const handleCategorySelect = (item: ICategory) => {
     setCategory(item);
+    // remover isso daqui e apenas uma solucao temporaria enquanto o botao nao funciona
+    closeSelectCategory();
   };
   return (
     <Container>

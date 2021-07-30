@@ -628,3 +628,20 @@ export const AppRoutes = () => {
   );
 };
 ```
+
+## Usando Async Storage para persistencia de dados.
+
+Primeiro passo irei instalar a lib com o seguinte comando:
+
+```bash
+❯ expo install @react-native-async-storage/async-storage
+```
+
+A seguir irei importar o seguinte metodo:
+
+```tsx
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+
+// Para armazenar as informações no meu device irei executar o seguinte metodo
+await AsyncStorage.setItem('chave', JSON.stringify(dadosSemprePrecisoConvertelosComJSON));
+```
