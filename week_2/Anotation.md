@@ -527,3 +527,45 @@ Agora no meu arquivo principal, (App.tsx) irei importar o seguinte:
 ```tsx
 import "react-native-gesture-handler";
 ```
+
+## Utilizando Tab Navigation
+
+Irei instalar a seguinte lib para usar a navegação em tab, navegacao que os botoes ficam embaixo da tela.
+
+```bash
+❯ yarn add @react-navigation/bottom-tabs
+```
+
+A seguir irei criar uma pasta dentro de src, chamada routes, com o arquivo app.routes.tsx
+
+```tsx
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Dashboard } from "../Pages/Dashboard";
+import { Register } from "../Pages/Register";
+
+const { Navigator, Screen } = createBottomTabNavigator();
+
+export const routes: React.FC = () => {
+  return (
+    <Navigator>
+      <Screen name="Listagem" component={Dashboard} />
+      <Screen name="Cadastrar" component={Register} />
+    </Navigator>
+  );
+};
+```
+
+Dentro do meu App.tsx irei importar o novigatorContainer a seguinte forma e envolver ele por toda a aplicação:
+
+```tsx
+import { NavigationContainer } from "@react-navigation/native";
+
+return (
+  return (
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>
+  );
+);
+```
