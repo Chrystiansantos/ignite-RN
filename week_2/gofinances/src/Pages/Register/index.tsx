@@ -50,7 +50,6 @@ export const Register = () => {
     key: 'category',
     name: 'Categoria',
   });
-  const dataKey = '@gofinances:transactions';
 
   const handleTransactionTypeSelec = (type: 'up' | 'down') => {
     setTransactionType(type);
@@ -76,11 +75,13 @@ export const Register = () => {
       name: form.name,
       amount: form.amount,
       transactionType,
-      category: category.name,
+      category: category.key,
       date: new Date(),
+      type: transactionType,
     };
 
     try {
+      const dataKey = '@gofinances:transactions';
       const data = await AsyncStorage.getItem(dataKey);
       const currentData = data ? JSON.parse(data) : [];
 
@@ -99,14 +100,6 @@ export const Register = () => {
       Alert.alert('Não foi possivel salvar');
     }
   };
-
-  useEffect(() => {
-    const loadData = async () => {
-      const data = await AsyncStorage.getItem(dataKey);
-      console.log(JSON.parse(data!), 'DATA');
-    };
-    loadData();
-  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

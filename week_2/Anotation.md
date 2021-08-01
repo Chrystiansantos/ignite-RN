@@ -668,5 +668,20 @@ Irei importar-lo da seguinte maneira e ao executa-lo ele irá me retornar um has
 ```ts
 import uuid from "react-native-uuid";
 
-uuid.v4()
+uuid.v4();
+```
+
+## Usando Intl no android.
+
+Para eu usar as funcoes de formatacao Intl, irei precisar instalar a seguinte lib:
+
+```bash
+❯ yarn add intl
+```
+
+Dentro do App.tsx, o meu arquivo de entrada irei fazer a seguinte importação:
+
+```tsx
+import "intl";
+import "intl/locale-data/jsonp/pt-BR";
 ```
