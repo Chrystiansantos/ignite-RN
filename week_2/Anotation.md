@@ -654,3 +654,19 @@ const removeAll = async () => {
 };
 removeAll();
 ```
+
+## Usando Uuids gerados com a lib react-native-uuid
+
+Irei instalar a lib com o seguitne comando:
+
+```bash
+  ❯ yarn add react-native-uuid
+```
+
+Irei importar-lo da seguinte maneira e ao executa-lo ele irá me retornar um hash.
+
+```ts
+import uuid from "react-native-uuid";
+
+uuid.v4()
+```

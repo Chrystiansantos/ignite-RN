@@ -4,7 +4,8 @@ import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import uuid from 'react-native-uuid';
+import { useNavigation } from '@react-navigation/native';
 import { Button } from '../../Components/Form/Button';
 import { TransactionTypeButton } from '../../Components/Form/TransactionTypeButton';
 import { CategorySelectButton } from '../../Components/Form/CategorySelectButton';
@@ -36,9 +37,12 @@ export const Register = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const navigation = useNavigation();
 
   const [transactionType, setTransactionType] = useState<'up' | 'down'>('up');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -68,10 +72,12 @@ export const Register = () => {
       return Alert.alert('Selecione a categoria');
 
     const newTransaction = {
+      id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
       transactionType,
       category: category.name,
+      date: new Date(),
     };
 
     try {
@@ -81,6 +87,13 @@ export const Register = () => {
       const dataFormatted = [...currentData, newTransaction];
 
       await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
+      setTransactionType('up');
+      setCategory({
+        key: 'category',
+        name: 'Categoria',
+      });
+      reset();
+      navigation.navigate('Listagem');
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possivel salvar');
@@ -90,7 +103,7 @@ export const Register = () => {
   useEffect(() => {
     const loadData = async () => {
       const data = await AsyncStorage.getItem(dataKey);
-      console.log(JSON.parse(data!));
+      console.log(JSON.parse(data!), 'DATA');
     };
     loadData();
   }, []);
