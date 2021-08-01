@@ -685,3 +685,15 @@ Dentro do App.tsx, o meu arquivo de entrada irei fazer a seguinte importação:
 import "intl";
 import "intl/locale-data/jsonp/pt-BR";
 ```
+
+## Usando useFocusEffect
+
+É um hook que sera disparado toda vez que minha interface tiver um foco por exemplo quando uso o tabNavigator ele recarrega as pages umas vez e depois fica apenas alterando entre si, entao caso precise atualizar algo ao abrir uma page preciso que esse hook seja disparado.
+
+```tsx
+useFocusEffect(
+    useCallback(() => {
+      // toda vez que abrir a page ele ira recarregar essa lista
+      loadTransactions();
+    }, []),
+```
