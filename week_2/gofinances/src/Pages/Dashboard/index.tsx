@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import { ActivityIndicator } from 'react-native';
+import { useTheme } from 'styled-components';
 import { HighlightCard } from '../../Components/HighlightCard';
 import {
   TransactionCard,
@@ -22,6 +24,7 @@ import {
   Transactions,
   Title,
   TransactionsList,
+  LoadContainer,
 } from './styles';
 
 export interface DataListProps extends ITransactionCardProps {
@@ -39,15 +42,18 @@ interface IHighlightData {
 }
 
 export function Dashboard() {
+  const { colors } = useTheme();
+
+  const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
   const [highlightData, setHighlightData] = useState<IHighlightData>(
     {} as IHighlightData,
   );
 
-  let entriesTotal = 0;
-  let expensiveTotal = 0;
-
   const loadTransactions = async () => {
+    let entriesTotal = 0;
+    let expensiveTotal = 0;
+
     const dataKey = '@gofinances:transactions';
     // await AsyncStorage.removeItem(dataKey);
     const response = await AsyncStorage.getItem(dataKey);
@@ -58,7 +64,6 @@ export function Dashboard() {
       (transaction: DataListProps) => {
         // console.log(transaction);
         if (transaction.type === 'positive') {
-          console.log(transaction.amount);
           entriesTotal += Number(transaction.amount);
         } else {
           // console.log(transaction.amount);
@@ -108,6 +113,7 @@ export function Dashboard() {
       },
     });
     setTransactions(transactionFormmated);
+    setIsLoading(false);
   };
 
   // useEffect(() => {
@@ -119,6 +125,14 @@ export function Dashboard() {
       loadTransactions();
     }, []),
   );
+
+  if (isLoading) {
+    return (
+      <LoadContainer>
+        <ActivityIndicator color={colors.primary} size="large" />
+      </LoadContainer>
+    );
+  }
 
   return (
     <Container>
