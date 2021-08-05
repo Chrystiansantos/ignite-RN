@@ -1,5 +1,4 @@
 import React from 'react';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import { Container, Title, Amount } from './styles';
 
