@@ -697,3 +697,35 @@ useFocusEffect(
       loadTransactions();
     }, []),
 ```
+
+## Integrando grafico com RN
+
+Para trabalhar com graficos irei utilizar uma lib chamada victory e para instalar irei usar o seguinte comando:
+
+```bash
+❯ yarn add victory-native
+❯ yarn add react-native-svg
+```
+
+E a utilização e bem simples, irei importar o componente do grafico e utiliza-lo simplesmente assim:
+
+```tsx
+import { VictoryPie } from "victory-native";
+
+return (
+  <VictoryPie
+    data={totalByCategories}
+    colorScale={totalByCategories.map((category) => category.color)}
+    style={{
+      labels: {
+        fontSize: RFValue(18),
+        fontWeight: "bold",
+        fill: colors.shape,
+      },
+    }}
+    labelRadius={50}
+    x="percent"
+    y="total"
+  />
+);
+```
