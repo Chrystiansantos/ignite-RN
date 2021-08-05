@@ -28,6 +28,7 @@ interface IFormData {
 const schema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
   amount: Yup.number()
+    .required('O valor é obrigatório')
     .positive('O valor não pode ser negativo')
     .typeError('Informe um valor númerico'),
 });

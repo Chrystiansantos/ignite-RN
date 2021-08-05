@@ -14,6 +14,7 @@ import 'intl/locale-data/jsonp/pt-BR';
 
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
 import theme from './src/global/styles/theme';
 import { AppRoutes } from './src/routes/app.routes';
 
@@ -33,6 +34,10 @@ export default function App() {
       <NavigationContainer>
         <AppRoutes />
       </NavigationContainer>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={theme.colors.primary}
+      />
     </ThemeProvider>
   );
 }
