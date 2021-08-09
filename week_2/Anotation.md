@@ -729,3 +729,45 @@ return (
   />
 );
 ```
+
+## Usando React-Native-SVG-Transformer
+
+Para se utilizar icones svg irei instalar a seguinte lib para utilizar o mesmo:
+
+```bash
+❯ yarn add --dev react-native-svg-transformer
+```
+
+Dentro do meu arquivo metro.config.js, irei fazer a seguinte configuração:
+
+```ts
+module.exports = (async () => {
+  const {
+    resolver: { sourceExts, assetExts },
+  } = await getDefaultConfig(__dirname);
+  return {
+    transformer: {
+      babelTransformerPath: require.resolve("react-native-svg-transformer"),
+    },
+    resolver: {
+      assetExts: assetExts.filter((ext) => ext !== "svg"),
+      sourceExts: [...sourceExts, "svg"],
+    },
+  };
+})();
+```
+
+Dentro de src irei criar uma pasta chamada types, onde irei faze a configuracao de tipagem do meu SVG.
+
+Dentro de types irei criar o seguinte diretorio svg/index.d.ts, irei adicionar o seguinte codigo
+
+```ts
+declare module '*.svg' {
+  import React from 'react';
+  import { SVGProps } from 'react-native-svg';
+
+  const content: React.FC<SVGProps>;
+  export default content;
+}
+```
+## Adicionando Autenticação social no App
