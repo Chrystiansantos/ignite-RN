@@ -18,8 +18,8 @@ import {
 } from './styles';
 
 export const SignIn = () => {
-  const data = useAuth();
-  console.log(data);
+  const { user } = useAuth();
+  console.log(user);
   return (
     <Container>
       <Header>
