@@ -5,6 +5,7 @@ import AppleSvg from '../../assets/apple.svg';
 import GoogleSvg from '../../assets/google.svg';
 import LogoSvg from '../../assets/logo.svg';
 import { SignIntSocialButton } from '../../Components/SignIntSocialButton';
+import { useAuth } from '../../hooks/AuthContext';
 
 import {
   Container,
@@ -17,6 +18,8 @@ import {
 } from './styles';
 
 export const SignIn = () => {
+  const data = useAuth();
+  console.log(data);
   return (
     <Container>
       <Header>
