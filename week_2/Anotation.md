@@ -762,12 +762,116 @@ Dentro de src irei criar uma pasta chamada types, onde irei faze a configuracao 
 Dentro de types irei criar o seguinte diretorio svg/index.d.ts, irei adicionar o seguinte codigo
 
 ```ts
-declare module '*.svg' {
-  import React from 'react';
-  import { SVGProps } from 'react-native-svg';
+declare module "*.svg" {
+  import React from "react";
+  import { SVGProps } from "react-native-svg";
 
   const content: React.FC<SVGProps>;
   export default content;
 }
 ```
+
 ## Adicionando Autenticação social no App
+
+Irei acessar a documentação do expo no seguinte link:
+
+https://docs.expo.dev/guides/authentication/
+
+### Google:
+
+
+
+A seguir precisarei clicar em Create Google Apps.
+
+A seguir irei clicar em selecionar um projeto, apos isso irei clicar em Novo Projeto e irei criar um novo projeto.
+
+Irei dar um nome pro meu app e irei clicar em criar.
+A seguir irei clicar em "Tela de permissão OAuth.
+
+- Irei selecionar externo para que qualquer usuario consiga se conectar
+- Irei clicar em criar
+- Agora irei informar algumas informacoes do meu app:
+  - Apos informar esses dados irei clicar em salvar e continuar
+- Irei ser direcionado para a tela de escopo e irei adicionar os escopos que desejo, nesse cenario irei escolher estes:
+
+  - .../auth/userinfo.email
+  - .../auth/userinfo.profile
+
+- Irei clicar em atualizar
+- Irei novamente clicar em salvar e continuar
+- Irei clicar em salvar e continuar novamente pois nao terei usuario de teste
+- E por final apos toda a config ele me fornecera um resumo.
+
+- Irei em tela de consentimento Oatuh e irei clciar em em "Publicar Aplicativo"
+
+### Agora irei configurar as credenciais de autenticação
+
+Agora irei em credenciais, irei clicar em criar credencias, irei selecionar:
+
+- Id do cliente Oath
+
+A Seguir irei selecionar as seguintes configurações:
+
+- Tipo de aplicativo => Aplicativo da web
+- Nome => goFinances
+- Adicionar Uri:
+  Irei na doc do expo e irei pegar a uri, por exemplo essa:
+  https://auth.expo.io
+  Irei na doc do expo e irei pegar a uri de redirecionamento, por exemplo essa aqui:
+  https://auth.expo.io/@your-username/your-project-slug - Lembrando que irei pegar o meu user-name do expo - Irei pegar também o nome do slug do meu app dentro do arquivo app.json
+
+Dentro de app.json abaixo de slug irei adicionar o seguite atributo:
+
+- "schema":"gofinances"
+
+Agora irei clicar em criar :)
+
+A seguir no meu AuthContext irei criar um metodo chamado signInWithGoogle, para que eu consiga me autenticar com o Google irei utilizar o seguinte codigo:
+
+Irei abrir a doc do google e irei pegar a url:
+
+https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow
+
+Irei clicar em OAuth 2.0 Endpoints e irei copiar a url informada abaixo:
+
+Precisarei instalar as seguintes libs:
+
+```bash
+❯ expo install expo-auth-session expo-random
+```
+
+A seguir irei acessar o console no google cloud plataforma e irei pegar as seguintes informações:
+
+ID do cliente
+Chave secreta do cliente
+URIs de redirecionamento autorizados
+
+```tsx
+const signInWithGoogle = async () => {
+    try {
+      const CLIENT_ID ='';
+      const REDIRECT_URI = '';
+      const RESPONSE_TYPE = '';
+      const SCOPE = encodeURI('');
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
+      // 17:19
+      const { type, params } = (await AuthSession.startAsync({
+        authUrl,
+      })) as IAuthorizantionResponse;
+      if (type === 'success') {
+        const response = await fetch(
+          `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`,
+        );
+        const userInfo = await response.json();
+
+        setUser({
+          id: userInfo.id,
+          email: userInfo.email,
+          name: userInfo.name,
+          photo: userInfo.picture,
+        });
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+```
