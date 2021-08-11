@@ -31,10 +31,10 @@ const AuthProvider = ({ children }: IAuthProviderProps) => {
 
   const signInWithGoogle = async () => {
     try {
-      const CLIENT_ID = '';
-      const REDIRECT_URI = '';
-      const RESPONSE_TYPE = '';
-      const SCOPE = encodeURI('');
+      const { CLIENT_ID } = process.env;
+      const { REDIRECT_URI } = process.env;
+      const RESPONSE_TYPE = 'token';
+      const SCOPE = encodeURI('profile email');
       // const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${scope}`;
       const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
       // 17:19

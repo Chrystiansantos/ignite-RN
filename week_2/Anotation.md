@@ -875,3 +875,23 @@ const signInWithGoogle = async () => {
       throw new Error(error);
     }
 ```
+
+## Usando variaveis de ambiente
+
+Primeiro passo irei instalar a seguinte lib:
+
+```bash
+❯ yarn add babel-plugin-inline-dotenv
+```
+
+Agora no meu arquivo babel.config.js irei adicionar a seguinte config:
+
+```js
+plugins: ['inline-dotenv'],
+```
+
+Agora na raiz do projeto irei criar um arquivo chamado .env onde irei armarzenas as variaveis de ambiente
+
+e irei acessa-las da seguinte forma:
+
+const { CLIENT_ID } = process.env;
