@@ -779,8 +779,6 @@ https://docs.expo.dev/guides/authentication/
 
 ### Google:
 
-
-
 A seguir precisarei clicar em Create Google Apps.
 
 A seguir irei clicar em selecionar um projeto, apos isso irei clicar em Novo Projeto e irei criar um novo projeto.
@@ -822,7 +820,7 @@ A Seguir irei selecionar as seguintes configurações:
 
 Dentro de app.json abaixo de slug irei adicionar o seguite atributo:
 
-- "schema":"gofinances"
+- "scheme":"gofinances"
 
 Agora irei clicar em criar :)
 
@@ -874,6 +872,42 @@ const signInWithGoogle = async () => {
     } catch (error) {
       throw new Error(error);
     }
+```
+
+## Autenticando com uma conta Apple
+
+Primeiro passo irei instalar as seguintes lib:
+❯ expo install expo-apple-authentication
+
+# Quando for utilizar a autenticacao social da Apple me atentar que eles entregam as infomações do usuario uma unica vez
+
+```tsx
+const signInWithApple = async () => {
+  try {
+    const credential = await AppleAuthentication.signInAsync({
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+      ],
+    });
+    if (credential) {
+      const userLogged = {
+        id: String(credential.user),
+        email: credential.email,
+        name: credential.fullName?.givenName,
+        photo: undefined,
+      } as IUser;
+
+      setUser(userLogged);
+      await AsyncStorage.setItem(
+        "@gofinances:user",
+        JSON.stringify(userLogged)
+      );
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 ```
 
 ## Usando variaveis de ambiente
