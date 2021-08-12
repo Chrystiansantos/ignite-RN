@@ -12,16 +12,15 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 export const AppRoutes = () => {
   const { colors } = useTheme();
+
   return (
     <Navigator
-      tabBarOptions={{
-        // cor do menu, quando esta selecionado
-        activeTintColor: colors.secondary,
-        // cor quando o elemento esta inativo
-        inactiveTintColor: colors.text,
-        // adiciona um icone ao lado do outro
-        labelPosition: 'beside-icon',
-        style: {
+      screenOptions={{
+        tabBarActiveTintColor: colors.secondary,
+        tabBarInactiveTintColor: colors.text,
+        tabBarLabelPosition: 'beside-icon',
+        headerShown: false,
+        tabBarStyle: {
           paddingVertical: Platform.OS === 'ios' ? 20 : 10,
         },
       }}

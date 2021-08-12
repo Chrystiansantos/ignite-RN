@@ -13,12 +13,10 @@ import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 
 import AppLoading from 'expo-app-loading';
-import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import theme from './src/global/styles/theme';
-import { AppRoutes } from './src/routes/app.routes';
-import { SignIn } from './src/Pages/SignIn';
 import { AuthProvider } from './src/hooks/AuthContext';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [fonstLoaded] = useFonts({
@@ -34,10 +32,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
-        <NavigationContainer>
-          <SignIn />
-          {/* <AppRoutes /> */}
-        </NavigationContainer>
+        <Routes />
       </AuthProvider>
       <StatusBar
         barStyle="light-content"
