@@ -19,6 +19,7 @@ import {
 } from './styles';
 import { CategorySelect } from '../CategorySelect';
 import { InputForm } from '../../Components/Form/InputForm';
+import { useAuth } from '../../hooks/AuthContext';
 
 interface IFormData {
   name: string;
@@ -43,8 +44,8 @@ export const Register = () => {
     resolver: yupResolver(schema),
   });
 
-  const navigation = useNavigation();
-
+  const { navigate } = useNavigation();
+  const { user } = useAuth();
   const [transactionType, setTransactionType] = useState<
     'positive' | 'negative'
   >('positive');
@@ -84,7 +85,7 @@ export const Register = () => {
     };
 
     try {
-      const dataKey = '@gofinances:transactions';
+      const dataKey = `@gofinances:transactions_user:${user.id}`;
       const data = await AsyncStorage.getItem(dataKey);
       const currentData = data ? JSON.parse(data) : [];
 
@@ -97,7 +98,7 @@ export const Register = () => {
         name: 'Categoria',
       });
       reset();
-      navigation.navigate('Listagem');
+      navigate('Listagem');
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possivel salvar');

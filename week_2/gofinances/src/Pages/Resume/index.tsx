@@ -28,6 +28,7 @@ import {
 
 import { DataListProps } from '../Dashboard';
 import { categories } from '../../util/categories';
+import { useAuth } from '../../hooks/AuthContext';
 
 export interface ITransactionData {
   id: string;
@@ -48,6 +49,7 @@ interface ICategoryData {
 
 export const Resume = () => {
   const { colors } = useTheme();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<ICategoryData[]>(
@@ -66,7 +68,7 @@ export const Resume = () => {
 
   const loadData = async () => {
     setIsLoading(true);
-    const dataKey = '@gofinances:transactions';
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted: DataListProps[] = response
       ? JSON.parse(response)

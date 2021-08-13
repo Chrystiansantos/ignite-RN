@@ -79,7 +79,7 @@ export function Dashboard() {
     let entriesTotal = 0;
     let expensiveTotal = 0;
 
-    const dataKey = '@gofinances:transactions';
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
     // await AsyncStorage.removeItem(dataKey);
     const response = await AsyncStorage.getItem(dataKey);
 
