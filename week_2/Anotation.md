@@ -1021,3 +1021,13 @@ export const AuthRoutes = () => {
   );
 };
 ```
+
+## Gerando um avatar baseado no nome
+
+Irei usar a api do ui-avatars.
+
+Irei acessar o link:
+https://ui-avatars.com/
+
+E através dele irei consumir o servico que irá retornar a imagem:
+

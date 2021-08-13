@@ -1,6 +1,7 @@
-import React from 'react';
-import { Alert } from 'react-native';
+import React, { useState } from 'react';
+import { ActivityIndicator, Alert } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { useTheme } from 'styled-components';
 
 import AppleSvg from '../../assets/apple.svg';
 import GoogleSvg from '../../assets/google.svg';
@@ -20,21 +21,31 @@ import {
 
 export const SignIn = () => {
   const { signInWithGoogle, signInWithApple } = useAuth();
+  const { colors } = useTheme();
+  const [isLoading, setIsLoading] = useState(false);
 
+  // eslint-disable-next-line consistent-return
   const handleSignInWithGoogle = async () => {
     try {
-      await signInWithGoogle();
+      setIsLoading(true);
+      return await signInWithGoogle();
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possível conectar com sua conta Google');
+    } finally {
+      setIsLoading(false);
     }
   };
+  // eslint-disable-next-line consistent-return
   const handleSignInWithApple = async () => {
     try {
-      await signInWithApple();
+      setIsLoading(true);
+      return await signInWithApple();
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possível conectar com sua conta Apple');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -62,6 +73,13 @@ export const SignIn = () => {
             title="Entrar com Google"
           />
         </FooterWrapper>
+        {isLoading && (
+          <ActivityIndicator
+            style={{ marginTop: 18 }}
+            color={colors.shape}
+            size="large"
+          />
+        )}
       </Footer>
     </Container>
   );

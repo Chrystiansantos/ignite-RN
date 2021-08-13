@@ -15,7 +15,7 @@ import 'intl/locale-data/jsonp/pt-BR';
 import AppLoading from 'expo-app-loading';
 import { StatusBar } from 'react-native';
 import theme from './src/global/styles/theme';
-import { AuthProvider } from './src/hooks/AuthContext';
+import { AuthProvider, useAuth } from './src/hooks/AuthContext';
 import { Routes } from './src/routes';
 
 export default function App() {
@@ -24,8 +24,9 @@ export default function App() {
     Poppins_500Medium,
     Poppins_700Bold,
   });
+  const { userStorageLoading } = useAuth();
   // se o fontLoaded nao estiver carregador as font irei sergurar a splash usando o seguinde comando
-  if (!fonstLoaded) {
+  if (!fonstLoaded || userStorageLoading) {
     return <AppLoading />;
   }
 

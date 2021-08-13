@@ -26,6 +26,7 @@ import {
   TransactionsList,
   LoadContainer,
 } from './styles';
+import { useAuth } from '../../hooks/AuthContext';
 
 export interface DataListProps extends ITransactionCardProps {
   id: string;
@@ -44,6 +45,7 @@ interface IHighlightData {
 
 export function Dashboard() {
   const { colors } = useTheme();
+  const { user, signOut } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
@@ -155,10 +157,6 @@ export function Dashboard() {
     setIsLoading(false);
   };
 
-  // useEffect(() => {
-  //   loadTransactions();
-  // }, []);
-
   useFocusEffect(
     useCallback(() => {
       loadTransactions();
@@ -180,15 +178,15 @@ export function Dashboard() {
           <UserInfo>
             <Photo
               source={{
-                uri: 'https://avatars.githubusercontent.com/u/33062949?v=4.png',
+                uri: user.photo,
               }}
             />
             <User>
               <UserGreetting>Olá,</UserGreetting>
-              <UserName>Chrystian</UserName>
+              <UserName>{user.name}</UserName>
             </User>
           </UserInfo>
-          <LogoutButton onPress={() => {}}>
+          <LogoutButton onPress={signOut}>
             <Icon name="power" />
           </LogoutButton>
         </UserWrapper>
