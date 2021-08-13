@@ -929,3 +929,95 @@ Agora na raiz do projeto irei criar um arquivo chamado .env onde irei armarzenas
 e irei acessa-las da seguinte forma:
 
 const { CLIENT_ID } = process.env;
+
+## Usando rotas privadas e publicas
+
+Irei criar 2 arquivos de rotas um para publicas e outro par aprivadas.
+
+Irei criar também um index que sera responsavel por favor a condicional se essa rota privda deverá ou nao ser apresentada da seguinte forma:
+
+```tsx
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { AppRoutes } from "./app.routes";
+import { AuthRoutes } from "./auth.routes";
+import { useAuth } from "../hooks/AuthContext";
+
+export const Routes = () => {
+  const { user } = useAuth();
+
+  return (
+    <NavigationContainer>
+      {user.id ? <AppRoutes /> : <AuthRoutes />}
+    </NavigationContainer>
+  );
+};
+```
+
+```tsx
+/* eslint-disable react/prop-types */
+import React from "react";
+import { useTheme } from "styled-components";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Platform } from "react-native";
+import { Dashboard } from "../Pages/Dashboard";
+import { Register } from "../Pages/Register";
+import { Resume } from "../Pages/Resume";
+
+const { Navigator, Screen } = createBottomTabNavigator();
+
+export const AppRoutes = () => {
+  const { colors } = useTheme();
+
+  return (
+    <Navigator
+      screenOptions={{
+        // cor se estiver ativo
+        tabBarActiveTintColor: colors.secondary,
+        // cor quando nao estiver ativa
+        tabBarInactiveTintColor: colors.text,
+        // posicao do icone ao lado do texto
+        tabBarLabelPosition: "beside-icon",
+        // nao apresentar a status com titulo da rota
+        headerShown: false,
+        //estilo
+        tabBarStyle: {
+          paddingVertical: Platform.OS === "ios" ? 20 : 10,
+        },
+      }}
+    >
+      <Screen
+        name="Listagem"
+        component={Dashboard}
+        // adicionando um icone ao lado do nome da rota
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons
+              name="format-list-bulleted"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+    </Navigator>
+  );
+};
+```
+
+```tsx
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { SignIn } from "../Pages/SignIn";
+
+const { Navigator, Screen } = createNativeStackNavigator();
+
+export const AuthRoutes = () => {
+  return (
+    <Navigator screenOptions={{ headerShown: false }}>
+      <Screen name="SignIn" component={SignIn} />
+    </Navigator>
+  );
+};
+```
