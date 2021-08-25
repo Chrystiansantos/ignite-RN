@@ -1,6 +1,14 @@
 import React from 'react';
+import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
+
+import speedSvg from '../../assets/speed.svg';
+import acelerationSvg from '../../assets/acceleration.svg';
+import forceSvg from '../../assets/force.svg';
+import gasolineSvg from '../../assets/gasoline.svg';
+import exchangeSvg from '../../assets/exchange.svg';
+import peopleSvg from '../../assets/people.svg';
 
 import {
   Container,
@@ -14,6 +22,7 @@ import {
   Rent,
   Period,
   Price,
+  Accessories,
   About,
 } from './styles';
 
@@ -41,6 +50,14 @@ export const CarDetails = () => {
             <Price>R$ 100</Price>
           </Rent>
         </Details>
+        <Accessories>
+          <Accessory name="380Km/h" icon={speedSvg} />
+          <Accessory name="3.2s" icon={acelerationSvg} />
+          <Accessory name="800hp" icon={forceSvg} />
+          <Accessory name="Gasolina" icon={gasolineSvg} />
+          <Accessory name="Automatico" icon={exchangeSvg} />
+          <Accessory name="2" icon={peopleSvg} />
+        </Accessories>
         <About>
           Este é automovel desportivo. Surgiu do lendario touro de lide
           indultado na praça Real Maestranza de Sevilla. É um Belissimo carro
