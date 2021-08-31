@@ -16,6 +16,7 @@ import { Home } from './src/pages/Home';
 import theme from './src/styles/theme';
 import { CarDetails } from './src/pages/CarDetails';
 import { Scheduling } from './src/pages/Scheduling';
+import { SchedulingDetails } from './src/pages/SchedulingDetails';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -34,7 +35,8 @@ export default function App() {
     <ThemeProvider theme={theme}>
       {/* <Home /> */}
       {/* <CarDetails /> */}
-      <Scheduling />
+      {/* <Scheduling /> */}
+      <SchedulingDetails />
     </ThemeProvider>
   );
 }
