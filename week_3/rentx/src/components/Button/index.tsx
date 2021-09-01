@@ -5,12 +5,12 @@ import { Container, Title } from './styles';
 interface IButtonProps {
   title: string;
   color?: string;
-  // onPress: () => void;
+  onPress: () => void;
 }
 
-export const Button = ({ title, color, ...rest }: IButtonProps) => {
+export const Button = ({ title, color, onPress }: IButtonProps) => {
   return (
-    <Container {...rest} color={color}>
+    <Container onPress={onPress} color={color}>
       <Title>{title}</Title>
     </Container>
   );

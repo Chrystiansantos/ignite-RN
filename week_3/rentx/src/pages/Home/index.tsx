@@ -2,12 +2,14 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
+import { useNavigation } from '@react-navigation/native';
 import { Container, Header, HeaderContent, TotalCars, CarList } from './styles';
 
 import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
 
 export const Home = () => {
+  const { navigate } = useNavigation();
   const car = {
     brand: 'Mitsubishi',
     name: 'Lancer',
@@ -17,6 +19,10 @@ export const Home = () => {
     },
     thumbnail:
       'https://img1.gratispng.com/20171220/egq/mitsubishi-lancer-png-5a3a9535027442.6133742515137887250101.jpg',
+  };
+
+  const handleCarDetails = () => {
+    navigate('CarDetails');
   };
 
   return (
@@ -34,7 +40,7 @@ export const Home = () => {
       </Header>
       <CarList
         data={[1, 2, 3]}
-        renderItem={({ item }) => <Car data={car} />}
+        renderItem={({ item }) => <Car data={car} onPress={handleCarDetails} />}
         keyExtractor={item => String(item)}
       />
     </Container>
