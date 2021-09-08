@@ -31,19 +31,8 @@ export const Home = () => {
     loadData();
   }, []);
 
-  const car = {
-    brand: 'Mitsubishi',
-    name: 'Lancer',
-    rent: {
-      period: 'Ao dia',
-      price: 120,
-    },
-    thumbnail:
-      'https://img1.gratispng.com/20171220/egq/mitsubishi-lancer-png-5a3a9535027442.6133742515137887250101.jpg',
-  };
-
-  const handleCarDetails = () => {
-    navigate('CarDetails');
+  const handleCarDetails = (car: ICarDTO) => {
+    navigate('CarDetails', { car });
   };
 
   return (
@@ -66,7 +55,7 @@ export const Home = () => {
           data={cars}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <Car data={item} onPress={handleCarDetails} />
+            <Car data={item} onPress={() => handleCarDetails(item)} />
           )}
         />
       )}
