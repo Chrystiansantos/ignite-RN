@@ -5,7 +5,7 @@
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "react-native start",
-    "dev": "json-server ./server.json --host 127.0.0.1 --port 3333 --delay 1000"
+    "dev": "json-server ./server.json --host 192.168.1.2 --port 3333 --delay 1000"
   },
   "dependencies": {
     "@expo-google-fonts/archivo": "^0.2.0",
@@ -15,6 +15,7 @@
     "@types/styled-components-react-native": "^5.1.1",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
+    "axios": "^0.21.1",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
