@@ -4,13 +4,6 @@ import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
 
-import speedSvg from '../../assets/speed.svg';
-import acelerationSvg from '../../assets/acceleration.svg';
-import forceSvg from '../../assets/force.svg';
-import gasolineSvg from '../../assets/gasoline.svg';
-import exchangeSvg from '../../assets/exchange.svg';
-import peopleSvg from '../../assets/people.svg';
-
 import {
   Container,
   Header,
@@ -29,6 +22,7 @@ import {
 } from './styles';
 import { Button } from '../../components/Button';
 import { ICarDTO } from '../../dtos/ICarDTO';
+import { getAcessoryIcon } from '../../utils/getAccessoryIcon';
 
 interface IRouteParams {
   car: ICarDTO;
@@ -71,7 +65,7 @@ export const CarDetails = () => {
             <Accessory
               key={accessory.type}
               name={accessory.name}
-              icon={speedSvg}
+              icon={getAcessoryIcon(accessory.type)}
             />
           ))}
         </Accessories>
