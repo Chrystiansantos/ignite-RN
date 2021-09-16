@@ -3,55 +3,39 @@ import React from 'react';
 import {
   Calendar as CustomCalendar,
   LocaleConfig,
+  DateCallbackHandler,
 } from 'react-native-calendars';
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
-import { Container } from './styles';
+import { ptBr } from './localeConfig';
+import { generateInterval } from './generateInterval';
 
-LocaleConfig.locales['pt-br'] = {
-  monthNames: [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
-  ],
-  monthNamesShort: [
-    'Jan',
-    'Fev',
-    'Mar',
-    'Abr',
-    'Mai',
-    'Jun',
-    'Jul',
-    'Ago',
-    'Set',
-    'Out',
-    'Nov',
-    'Dez',
-  ],
-  dayNames: [
-    'Domingo',
-    'Segunda',
-    'Terça',
-    'Quarta',
-    'Quinta',
-    'Sexta',
-    'Sabado',
-  ],
-  dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-  today: 'hoje',
-};
+LocaleConfig.locales['pt-br'] = ptBr;
 LocaleConfig.defaultLocale = 'pt-br';
 
-export const Calendar = () => {
+interface IMarkedDatesProps {
+  [date: string]: {
+    color: string;
+    textColor: string;
+    disabled?: boolean;
+    disableTouchEvent?: boolean;
+  };
+}
+
+interface IDayProps {
+  dateString: string;
+  day: number;
+  month: number;
+  timestamp: number;
+  year: number;
+}
+
+interface ICalendarProps {
+  markedDates: IMarkedDatesProps;
+  onDayPress: DateCallbackHandler;
+}
+
+const Calendar = ({ markedDates, onDayPress }: ICalendarProps) => {
   const { colors, fonts } = useTheme();
   return (
     <CustomCalendar
@@ -82,6 +66,11 @@ export const Calendar = () => {
       }}
       firstDay={1}
       minDate={new Date()}
+      markingType="period"
+      markedDates={markedDates}
+      onDayPress={onDayPress}
     />
   );
 };
+
+export { Calendar, IMarkedDatesProps, IDayProps, generateInterval };
