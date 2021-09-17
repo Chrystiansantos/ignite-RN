@@ -34,7 +34,9 @@ export const CarDetails = () => {
   const { car } = route.params as IRouteParams;
 
   const handleConfirmRental = () => {
-    navigate('Scheduling');
+    navigate('Scheduling', {
+      car,
+    });
   };
 
   const handleBack = () => {

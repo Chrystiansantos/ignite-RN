@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useTheme } from 'styled-components/native';
-import { StatusBar } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { StatusBar, Alert } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { format } from 'date-fns';
 import { BackButton } from '../../components/BackButton';
 
 import ArrowSvg from '../../assets/arrow.svg';
@@ -24,6 +25,16 @@ import {
   IDayProps,
   IMarkedDatesProps,
 } from '../../components/Calendar';
+import { getPlataformDate } from '../../utils/getPlataformDate';
+import { ICarDTO } from '../../dtos/ICarDTO';
+
+interface IRentalPeriod {
+  startFormatted: string;
+  endFormatted: string;
+}
+interface IRouteParams {
+  car: ICarDTO;
+}
 
 export const Scheduling = () => {
   const [lastSelectedDate, setLastSelectedDate] = useState<IDayProps>(
@@ -32,11 +43,25 @@ export const Scheduling = () => {
   const [markedDates, setMarkedDate] = useState<IMarkedDatesProps>(
     {} as IMarkedDatesProps,
   );
+  const [rentalPeriod, setRentalPeriod] = useState<IRentalPeriod>(
+    {} as IRentalPeriod,
+  );
 
   const { colors } = useTheme();
   const { navigate, goBack } = useNavigation();
+  const route = useRoute();
+  const { car } = route.params as IRouteParams;
+
   const handleConfirmRental = () => {
-    navigate('SchedulingDetails');
+    if (!rentalPeriod.startFormatted || !rentalPeriod.endFormatted) {
+      Alert.alert('Selecione o intervalo para alugar');
+      return;
+    }
+
+    navigate('SchedulingDetails', {
+      car,
+      dates: Object.keys(markedDates),
+    });
   };
 
   const handleBack = () => {
@@ -55,6 +80,15 @@ export const Scheduling = () => {
     setLastSelectedDate(end);
     const interval = generateInterval(start, end);
     setMarkedDate(interval);
+    const firstDate = Object.keys(interval)[0];
+    const endDate = Object.keys(interval)[Object.keys(interval).length - 1];
+    setRentalPeriod({
+      startFormatted: format(
+        getPlataformDate(new Date(firstDate)),
+        'dd/MM/yyyy',
+      ),
+      endFormatted: format(getPlataformDate(new Date(endDate)), 'dd/MM/yyyy'),
+    });
   };
 
   return (
@@ -72,14 +106,16 @@ export const Scheduling = () => {
         <RentalPeriod>
           <DateInfo>
             <DateTitle>De</DateTitle>
-            {/* <DateValue >26/08/2021</DateValue> */}
-            <DateValue selected={false} />
+            <DateValue selected={!!rentalPeriod.startFormatted}>
+              {rentalPeriod.startFormatted}
+            </DateValue>
           </DateInfo>
           <ArrowSvg />
           <DateInfo>
             <DateTitle>Até</DateTitle>
-            {/* <DateValue>26/08/2021</DateValue> */}
-            <DateValue selected={false} />
+            <DateValue selected={!!rentalPeriod.endFormatted}>
+              {rentalPeriod.endFormatted}
+            </DateValue>
           </DateInfo>
         </RentalPeriod>
       </Header>
