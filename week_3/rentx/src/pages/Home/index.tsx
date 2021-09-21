@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import { useTheme } from 'styled-components/native';
 import {
   Container,
@@ -20,7 +20,7 @@ import { ICarDTO } from '../../dtos/ICarDTO';
 import { Load } from '../../components/Load';
 
 export const Home = () => {
-  const { navigate } = useNavigation();
+  const { navigate, dispatch } = useNavigation();
   const { colors } = useTheme();
 
   const [cars, setCars] = useState<ICarDTO[]>([]);
@@ -41,11 +41,22 @@ export const Home = () => {
   }, []);
 
   const handleCarDetails = (car: ICarDTO) => {
-    navigate('CarDetails', { car });
+    dispatch(
+      CommonActions.navigate({
+        name: 'CarDetails',
+        params: {
+          car,
+        },
+      }),
+    );
   };
 
   const handleOpenMyCars = () => {
-    navigate('MyCars');
+    dispatch(
+      CommonActions.navigate({
+        name: 'MyCars',
+      }),
+    );
   };
 
   return (
