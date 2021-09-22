@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components/native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import {
+  useNavigation,
+  useRoute,
+  CommonActions,
+} from '@react-navigation/native';
 import { format } from 'date-fns';
 import { Alert } from 'react-native';
 import { Accessory } from '../../components/Accessory';
@@ -56,7 +60,7 @@ export const SchedulingDetails = () => {
   );
 
   const { colors } = useTheme();
-  const { navigate, goBack } = useNavigation();
+  const { goBack, dispatch } = useNavigation();
 
   const route = useRoute();
   const { car, dates } = route.params as IParams;
@@ -73,14 +77,19 @@ export const SchedulingDetails = () => {
       await api.post('schedules_byuser', {
         user_id: 1,
         car,
+        startDate: rentalPeriod.start,
+        endDate: rentalPeriod.end,
       });
 
       await api.put(`/schedules_bycars/${car.id}`, {
         id: car.id,
         unavailable_dates,
       });
-
-      navigate('SchedulingComplete');
+      dispatch(
+        CommonActions.navigate({
+          name: 'SchedulingComplete',
+        }),
+      );
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possível confirmar o agendamento.');
