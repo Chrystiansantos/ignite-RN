@@ -1,24 +1,35 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react';
-import { Button, StyleSheet } from 'react-native';
+import { Button, Dimensions, StyleSheet } from 'react-native';
 
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
+  withTiming,
+  Easing,
 } from 'react-native-reanimated';
 
 import { Container } from './styles';
+
+const WIDTH = Dimensions.get('window').width;
 
 export const Splash = () => {
   const animation = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: animation.value }],
+      transform: [
+        {
+          translateX: withTiming(animation.value, {
+            duration: 500,
+            easing: Easing.bezier(0, 0.97, 1, -0.82),
+          }),
+        },
+      ],
     };
   });
 
   const handleAnimationPosition = () => {
-    animation.value = Math.random() * 300;
+    animation.value = Math.random() * (WIDTH - 100);
   };
 
   return (
