@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-  Easing,
   interpolate,
+  runOnJS,
 } from 'react-native-reanimated';
 
 import BrandSvg from '../../assets/brand.svg';
@@ -15,6 +16,7 @@ import { Container } from './styles';
 
 export const Splash = () => {
   const splashAnimation = useSharedValue(0);
+  const { dispatch } = useNavigation();
 
   const brandStyle = useAnimatedStyle(() => ({
     opacity: interpolate(splashAnimation.value, [0, 25, 50], [1, 0.3, 0]),
@@ -29,8 +31,20 @@ export const Splash = () => {
     ],
   }));
 
+  const startApp = () => {
+    dispatch(
+      CommonActions.navigate({
+        name: 'Home',
+      }),
+    );
+  };
+
   useEffect(() => {
-    splashAnimation.value = withTiming(50, { duration: 1000 });
+    splashAnimation.value = withTiming(50, { duration: 1000 }, () => {
+      'worklet';
+
+      runOnJS(startApp)();
+    });
   }, []);
 
   return (
