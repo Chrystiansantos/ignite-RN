@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useEffect, useState } from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, BackHandler } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, CommonActions } from '@react-navigation/native';
@@ -69,6 +69,12 @@ export const Home = () => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      return true;
+    });
+  }, []);
+
   const handleCarDetails = (car: ICarDTO) => {
     dispatch(
       CommonActions.navigate({
@@ -98,7 +104,7 @@ export const Home = () => {
       <Header>
         <HeaderContent>
           <Logo width={RFValue(108)} height={RFValue(12)} />
-          <TotalCars>Total de {cars.length} carros</TotalCars>
+          {!loading && <TotalCars>Total de {cars.length} carros</TotalCars>}
         </HeaderContent>
       </Header>
       {loading ? (
