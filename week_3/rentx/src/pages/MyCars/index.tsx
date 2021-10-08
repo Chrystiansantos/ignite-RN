@@ -23,7 +23,7 @@ import {
 } from './styles';
 import { BackButton } from '../../components/BackButton';
 import { Car } from '../../components/Car';
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 
 interface ICarProps {
   id: string;
@@ -73,7 +73,7 @@ export const MyCars = () => {
         <SubTitle>Conforto, segurança e praticidade</SubTitle>
       </Header>
       {loading ? (
-        <Load />
+        <LoadAnimation />
       ) : (
         <Content>
           <Appointments>

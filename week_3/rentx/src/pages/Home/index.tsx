@@ -19,7 +19,7 @@ import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
 import { api } from '../../service/api';
 import { ICarDTO } from '../../dtos/ICarDTO';
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 
 const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
@@ -108,7 +108,7 @@ export const Home = () => {
         </HeaderContent>
       </Header>
       {loading ? (
-        <Load />
+        <LoadAnimation />
       ) : (
         <CarList
           data={cars}
