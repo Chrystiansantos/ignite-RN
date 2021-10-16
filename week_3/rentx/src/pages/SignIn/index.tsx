@@ -22,7 +22,13 @@ export const SignIn = () => {
         </Subtitle>
       </Header>
       <Form>
-        <Input iconName="mail" />
+        <Input
+          placeholder="E-mail"
+          keyboardType="email-address"
+          iconName="mail"
+          autoCorrect={false}
+          autoCapitalize="none"
+        />
         <Input iconName="lock" />
       </Form>
 
