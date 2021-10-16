@@ -6,10 +6,11 @@ import { Container, Title } from './styles';
 
 interface IButtonProps {
   title: string;
-  color?: string;
   onPress: () => void;
+  color?: string;
   enabled?: boolean;
   loading?: boolean;
+  light?: boolean;
 }
 
 export const Button = ({
@@ -18,6 +19,7 @@ export const Button = ({
   onPress,
   enabled = true,
   loading = false,
+  light = false,
 }: IButtonProps) => {
   const { colors } = useTheme();
   return (
@@ -30,7 +32,7 @@ export const Button = ({
       {loading ? (
         <ActivityIndicator color={colors.shape} />
       ) : (
-        <Title>{title}</Title>
+        <Title light={light}>{title}</Title>
       )}
     </Container>
   );

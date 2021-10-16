@@ -6,6 +6,10 @@ interface IContainerProps extends RectButtonProps {
   color?: string;
 }
 
+interface IButtonTextProps {
+  light: boolean;
+}
+
 export const Container = styled(RectButton)<IContainerProps>`
   width: 100%;
   padding: 19px;
@@ -14,8 +18,9 @@ export const Container = styled(RectButton)<IContainerProps>`
   background-color: ${({ color, theme }) => color || theme.colors.main};
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<IButtonTextProps>`
   font-family: ${({ theme }) => theme.fonts.primary_500};
   font-size: ${RFValue(15)}px;
-  color: ${({ theme }) => theme.colors.shape};
+  color: ${({ theme, light }) =>
+    light ? theme.colors.header : theme.colors.shape};
 `;
