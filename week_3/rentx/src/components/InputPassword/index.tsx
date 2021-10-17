@@ -8,21 +8,43 @@ import { Container, IconContainer, InputText } from './styles';
 
 interface IInputProps extends TextInputProps {
   iconName: React.ComponentProps<typeof Feather>['name'];
+  value?: string;
 }
 
-export const InputPassword = ({ iconName, ...rest }: IInputProps) => {
+export const InputPassword = ({ iconName, value, ...rest }: IInputProps) => {
   const { colors } = useTheme();
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [isFilled, setIsFilled] = useState<boolean>(false);
+
+  const handleInputFocused = () => {
+    setIsFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsFocused(false);
+    setIsFilled(!!value);
+  };
+
   const handlePasswordVisibleChange = () => {
     setIsPasswordVisible(oldValue => !oldValue);
   };
 
   return (
-    <Container>
+    <Container isFocused={isFocused}>
       <IconContainer>
-        <Feather name={iconName} size={24} color={colors.text_details} />
+        <Feather
+          name={iconName}
+          size={24}
+          color={isFocused || isFilled ? colors.main : colors.text_details}
+        />
       </IconContainer>
-      <InputText secureTextEntry={isPasswordVisible} {...rest} />
+      <InputText
+        onBlur={handleInputBlur}
+        onFocus={handleInputFocused}
+        secureTextEntry={isPasswordVisible}
+        {...rest}
+      />
       <BorderlessButton onPress={handlePasswordVisibleChange}>
         <IconContainer>
           <Feather
