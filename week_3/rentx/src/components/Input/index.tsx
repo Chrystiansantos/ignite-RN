@@ -25,7 +25,7 @@ export const Input = ({ iconName, value, ...rest }: IInputProps) => {
   };
 
   return (
-    <Container isFocused={isFocused}>
+    <Container>
       <IconContainer>
         <Feather
           name={iconName}
@@ -34,6 +34,7 @@ export const Input = ({ iconName, value, ...rest }: IInputProps) => {
         />
       </IconContainer>
       <InputText
+        isFocused={isFocused}
         onFocus={handleInputFocused}
         onBlur={handleInputBlur}
         {...rest}

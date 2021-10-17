@@ -2,19 +2,13 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled, { css } from 'styled-components/native';
 import { TextInput } from 'react-native';
 
-interface IContainerProps {
+interface IInputProps {
   isFocused: boolean;
 }
 
-export const Container = styled.View<IContainerProps>`
+export const Container = styled.View`
   flex-direction: row;
   margin-bottom: 8px;
-  ${({ theme, isFocused }) =>
-    isFocused &&
-    css`
-      border-bottom-width: 2px;
-      border-bottom-color: ${theme.colors.main};
-    `}
 `;
 
 export const IconContainer = styled.View`
@@ -26,11 +20,17 @@ export const IconContainer = styled.View`
   margin-right: 2px;
 `;
 
-export const InputText = styled(TextInput)`
+export const InputText = styled(TextInput)<IInputProps>`
   background-color: ${({ theme }) => theme.colors.background_secondary};
   color: ${({ theme }) => theme.colors.text};
   font-family: ${({ theme }) => theme.fonts.primary_400};
   font-size: ${RFValue(15)}px;
   flex: 1;
   padding: 0 23px;
+  ${({ theme, isFocused }) =>
+    isFocused &&
+    css`
+      border-bottom-width: 2px;
+      border-bottom-color: ${theme.colors.main};
+    `}
 `;
