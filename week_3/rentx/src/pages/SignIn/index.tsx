@@ -1,3 +1,4 @@
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   StatusBar,
@@ -16,6 +17,7 @@ import { Container, Header, Form, Title, Subtitle, Footer } from './styles';
 
 export const SignIn = () => {
   const { colors } = useTheme();
+  const { dispatch } = useNavigation();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -41,6 +43,14 @@ export const SignIn = () => {
         'Ocorreu um erro ao fazer login verifique suas credenciais',
       );
     }
+  };
+
+  const handleNewAccount = () => {
+    dispatch(
+      CommonActions.navigate({
+        name: 'SignUpFirstStep',
+      }),
+    );
   };
 
   return (
@@ -85,7 +95,7 @@ export const SignIn = () => {
             />
             <Button
               title="Criar conta, gratuita"
-              onPress={() => console.log('Criar conta')}
+              onPress={handleNewAccount}
               color={colors.background_secondary}
               enabled
               light
