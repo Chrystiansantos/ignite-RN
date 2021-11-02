@@ -1,12 +1,14 @@
-import { useNavigation, CommonActions } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { Keyboard, KeyboardAvoidingView } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { useTheme } from 'styled-components';
 
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { Button } from '../../../components/Button';
 import { Input } from '../../../components/Input';
+import { InputPassword } from '../../../components/InputPassword';
 
 import {
   Container,
@@ -18,18 +20,11 @@ import {
   FormTitle,
 } from './styles';
 
-export const SignUpFirstStep = () => {
-  const { goBack, dispatch } = useNavigation();
+export const SignUpSecondtStep = () => {
+  const { colors } = useTheme();
+  const { goBack } = useNavigation();
   const handleBack = () => {
     goBack();
-  };
-
-  const handleNextStep = () => {
-    dispatch(
-      CommonActions.navigate({
-        name: 'SignUpSecondtStep',
-      }),
-    );
   };
 
   return (
@@ -47,20 +42,11 @@ export const SignUpFirstStep = () => {
           <Title>Crie sua {'\n'}conta</Title>
           <Subtitle>Faça seu cadastro de {'\n'} forma rápida e fácil</Subtitle>
           <Form>
-            <FormTitle>1. Dados</FormTitle>
-            <Input iconName="user" placeholder="Nome" />
-            <Input
-              iconName="mail"
-              placeholder="Email"
-              keyboardType="email-address"
-            />
-            <Input
-              iconName="credit-card"
-              placeholder="CNH"
-              keyboardType="numeric"
-            />
+            <FormTitle>2. Senha</FormTitle>
+            <InputPassword iconName="lock" placeholder="Senha" />
+            <InputPassword iconName="lock" placeholder="Repetir senha" />
           </Form>
-          <Button title="Próximo" onPress={handleNextStep} />
+          <Button title="Cadastrar" color={colors.success} />
         </Container>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

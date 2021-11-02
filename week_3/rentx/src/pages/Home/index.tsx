@@ -24,7 +24,7 @@ import { LoadAnimation } from '../../components/LoadAnimation';
 const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
 export const Home = () => {
-  const { navigate, dispatch } = useNavigation();
+  const { dispatch } = useNavigation();
   const { colors } = useTheme();
 
   const [cars, setCars] = useState<ICarDTO[]>([]);
