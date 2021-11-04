@@ -1,18 +1,34 @@
 import React from 'react';
 
 import { StatusBar, useWindowDimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {
+  useNavigation,
+  CommonActions,
+  useRoute,
+} from '@react-navigation/native';
 import { Container, Content, Title, Message, Footer } from './styles';
 
 import LogoSvg from '../../assets/logo_background_gray.svg';
 import DoneSvg from '../../assets/done.svg';
 import { ConfirmButton } from '../../components/ConfirmButton';
 
-export const SchedulingComplete = () => {
+interface IParamsRoute {
+  title: string;
+  message: string;
+  nextPageRoute: string;
+}
+
+export const Confirmation = () => {
   const { width } = useWindowDimensions();
-  const { navigate } = useNavigation();
+  const { dispatch } = useNavigation();
+  const route = useRoute();
+  const { title, message, nextPageRoute } = route.params as IParamsRoute;
   const handleConfirm = () => {
-    navigate('Home');
+    dispatch(
+      CommonActions.navigate({
+        name: nextPageRoute,
+      }),
+    );
   };
   return (
     <Container>
@@ -24,12 +40,8 @@ export const SchedulingComplete = () => {
       <LogoSvg width={width} />
       <Content>
         <DoneSvg width={80} height={80} />
-        <Title>Carro alugado !</Title>
-        <Message>
-          Agora você só precisa ir {'\n'}
-          até a concessionária da RENTX {'\n'}
-          pegar o seu automóvel
-        </Message>
+        <Title>{title}</Title>
+        <Message>{message}</Message>
         <Footer>
           <ConfirmButton title="Ok" onPress={handleConfirm} />
         </Footer>

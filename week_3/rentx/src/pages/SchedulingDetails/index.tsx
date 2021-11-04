@@ -89,7 +89,13 @@ export const SchedulingDetails = () => {
       });
       dispatch(
         CommonActions.navigate({
-          name: 'SchedulingComplete',
+          name: 'Confirmation',
+          params: {
+            title: 'Carro alugado!',
+            message:
+              'Agora você apenas precisar ir \n até a concessionária da RENTX \n pegar o seu automóvel',
+            nextPageRoute: 'Home',
+          },
         }),
       );
     } catch (error) {
