@@ -19,7 +19,7 @@ export function StackRoutes() {
       screenOptions={{
         headerShown: false,
       }}
-      // initialRouteName="Splash"
+      initialRouteName="Splash"
     >
       <Screen name="SignIn" component={SignIn} />
       <Screen name="SignUpFirstStep" component={SignUpFirstStep} />

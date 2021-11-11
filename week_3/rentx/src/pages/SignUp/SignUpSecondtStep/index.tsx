@@ -12,7 +12,7 @@ import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { Button } from '../../../components/Button';
 import { InputPassword } from '../../../components/InputPassword';
-import { Confirmation } from '../../Confirmation';
+import { api } from '../../../service/api';
 
 import {
   Container,
@@ -54,16 +54,26 @@ export const SignUpSecondtStep = () => {
       return Alert.alert('As senhas não são iguais');
     }
 
-    dispatch(
-      CommonActions.navigate({
-        name: 'Confirmation',
-        params: {
-          title: 'Conta Criada!',
-          message: 'Agora é so fazer \n login e aproveitar',
-          nextPageRoute: 'SignIn',
-        },
-      }),
-    );
+    try {
+      await api.post('/users', {
+        name: user.name,
+        email: user.email,
+        driver_license: user.driverLicense,
+        password,
+      });
+      dispatch(
+        CommonActions.navigate({
+          name: 'Confirmation',
+          params: {
+            title: 'Conta Criada!',
+            message: 'Agora é so fazer \n login e aproveitar',
+            nextPageRoute: 'SignIn',
+          },
+        }),
+      );
+    } catch (error) {
+      Alert.alert('Opa', 'Não foi possível cadastrar');
+    }
   };
 
   return (

@@ -34,7 +34,7 @@ export const Splash = () => {
   const startApp = () => {
     dispatch(
       CommonActions.navigate({
-        name: 'Home',
+        name: 'SignIn',
       }),
     );
   };
