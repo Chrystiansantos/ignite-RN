@@ -6,30 +6,18 @@ import { Scheduling } from '../pages/Scheduling';
 import { SchedulingDetails } from '../pages/SchedulingDetails';
 import { Confirmation } from '../pages/Confirmation';
 import { MyCars } from '../pages/MyCars';
-import { Splash } from '../pages/Splash';
-import { SignIn } from '../pages/SignIn';
-import { SignUpFirstStep } from '../pages/SignUp/SignUpFirstStep';
-import { SignUpSecondtStep } from '../pages/SignUp/SignUpSecondtStep';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
-export function StackRoutes() {
+export function AppStackRoutes() {
   return (
     <Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Splash"
+      initialRouteName="Home"
     >
-      <Screen name="SignIn" component={SignIn} />
-      <Screen name="SignUpFirstStep" component={SignUpFirstStep} />
-      <Screen name="SignUpSecondtStep" component={SignUpSecondtStep} />
-      <Screen name="Splash" component={Splash} />
-      <Screen
-        name="Home"
-        component={Home}
-        options={{ gestureEnabled: false }}
-      />
+      <Screen name="Home" component={Home} />
       <Screen name="CarDetails" component={CarDetails} />
       <Screen name="Scheduling" component={Scheduling} />
       <Screen name="SchedulingDetails" component={SchedulingDetails} />
