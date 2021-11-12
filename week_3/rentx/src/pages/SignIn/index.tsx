@@ -12,12 +12,14 @@ import * as Yup from 'yup';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { InputPassword } from '../../components/InputPassword';
+import { useAuth } from '../../hooks/auth';
 
 import { Container, Header, Form, Title, Subtitle, Footer } from './styles';
 
 export const SignIn = () => {
   const { colors } = useTheme();
   const { dispatch } = useNavigation();
+  const { signIn } = useAuth();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -28,11 +30,15 @@ export const SignIn = () => {
         .email('Digite um e-mail válido'),
       password: Yup.string()
         .required('A senha é obrigatoria')
-        .min(8, 'No minimo 8 caracters'),
+        .min(4, 'No minimo 8 caracters'),
     });
     try {
       await schema.validate({ email, password });
-      Alert.alert('Deu certo');
+
+      await signIn({
+        email,
+        password,
+      });
     } catch (error) {
       // Aqui verifico se o erro e do yup pois pode ser um erro da api etc
       if (error instanceof Yup.ValidationError) {

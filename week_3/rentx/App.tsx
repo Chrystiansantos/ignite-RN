@@ -15,6 +15,7 @@ import { ThemeProvider } from 'styled-components/native';
 import theme from './src/styles/theme';
 
 import { Routes } from './src/routes';
+import { AppProvider } from './src/hooks';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -31,7 +32,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Routes />
+      <AppProvider>
+        <Routes />
+      </AppProvider>
     </ThemeProvider>
   );
 }
