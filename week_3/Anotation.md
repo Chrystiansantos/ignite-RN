@@ -164,7 +164,7 @@ try {
 
 - Configurando o database:
 
-  <b>Como o watermelon, é um banco de dados que ira usar recursos nativos do proprio cell, por isso nao consigo acessar o banco de dados do wattermelon atraves da cli do expo, por isso irei iniciar com o seguinte comando
+  <b>Como o watermelon, é um banco de dados que ira usar recursos nativos do proprio cell, por isso não consigo acessar o banco de dados do wattermelon através da cli do expo, por isso irei iniciar com o seguinte comando
 
   ```bash
     ❯ yarn run ios
@@ -194,3 +194,20 @@ try {
 ## Instalação para ios
 
 Irei abri o xcode, para isso irei abrir a pasta do meu projeto, irei na pasta ios, e irei abrir o arquivo nomeProjeto.xcodeproj
+
+Agora irei clicar com o botao direito, em cima do nome do meu projeto e adicionar um arquivo "SWITF FILE" irei pressionar em next, Posso deixar o nome como file, Após isso irei clicar em Create Bridging Header
+
+Irei colar a seguinte linhe dentro de ios/podfile
+
+```ruby
+pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi', :modular_headers => true
+pod 'simdjson', path: '../node_modules/@nozbe/simdjson'
+```
+
+Irei no xcode, irei clicar no nome do projeto, a seguir no nome dele novamente abaixo de target.
+Apos isso irei clicar em build phases, irei clicar em link binary with libries. A seguir irei clicar no botao de +, irei adicionar uma nova file, e essa file, irei navegar ate o wattermelon dentro de node_modules do meu projeto. irei abrir a pastar @nozbe, onde estara os arquivos do wattermelon @nozbe/watermelondb/native/ios/watermelondb.xocdeproj, irei selecionar e clicar em open.
+
+Apos ele ter carregado irei clicar novamente no sinal de +, e ele ira aparecer no topo da lista clico no arquivo com icone da casinha, e clico em add.
+
+Agora irei na pasta ios, e irei rodar o pod install
+
