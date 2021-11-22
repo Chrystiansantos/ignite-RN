@@ -342,9 +342,13 @@ PODS:
     - React-RCTImage
   - RNSVG (12.1.1):
     - React
+  - simdjson (1.0.0)
   - UMAppLoader (3.0.0)
   - UMTaskManagerInterface (7.0.3):
     - ExpoModulesCore
+  - WatermelonDB (0.24.0):
+    - React
+    - React-jsi
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -398,8 +402,10 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - "simdjson (from `../node_modules/@nozbe/simdjson`)"
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
+  - "WatermelonDB (from `../node_modules/@nozbe/watermelondb`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -504,10 +510,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  simdjson:
+    :path: "../node_modules/@nozbe/simdjson"
   UMAppLoader:
     :path: "../node_modules/unimodules-app-loader/ios"
   UMTaskManagerInterface:
     :path: "../node_modules/unimodules-task-manager-interface/ios"
+  WatermelonDB:
+    :path: "../node_modules/@nozbe/watermelondb"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -530,7 +540,7 @@ SPEC CHECKSUMS:
   EXUpdates: 061b67c33f0e7f8fd335bbb48697c4a4fc8a5157
   EXUpdatesInterface: e1c01b4f5ec76bd1d6cc714938f9edf5ef6379b9
   FBLazyVector: c71c5917ec0ad2de41d5d06a5855f6d5eda06971
-  FBReactNativeSpec: 528ae73eed336406f61a5c28cdf2b3b33634cf7f
+  FBReactNativeSpec: 458de70b31292e4add4f015c7d30f935bf3d43dc
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   lottie-react-native: 96361a9891cf651534ea35c4f85f33d4cf14ed13
@@ -562,10 +572,12 @@ SPEC CHECKSUMS:
   RNReanimated: 024eff8202342abf4b24e11575a16afc441dabfe
   RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
+  simdjson: c96317b3a50dff3468a42f586ab7ed22c6ab2fd9
   UMAppLoader: 671576daa3fd3017d4879a5f23fc0dd3b36422a8
   UMTaskManagerInterface: 5654c50e68af11b19b9d05452bacf23d19b3f30f
+  WatermelonDB: e043b1a32ddc63864eb539b562e86ef80f8224cd
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
 
-PODFILE CHECKSUM: 7909cae293206d2dc8ee5e2d63349ae3390dbe32
+PODFILE CHECKSUM: 43da75dbeacd929299fbaf3bbb261d7bd872165d
 
 COCOAPODS: 1.11.2
