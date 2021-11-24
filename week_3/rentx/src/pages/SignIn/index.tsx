@@ -1,5 +1,5 @@
 import { useNavigation, CommonActions } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StatusBar,
   KeyboardAvoidingView,
@@ -15,6 +15,8 @@ import { InputPassword } from '../../components/InputPassword';
 import { useAuth } from '../../hooks/auth';
 
 import { Container, Header, Form, Title, Subtitle, Footer } from './styles';
+
+import { database } from '../../database';
 
 export const SignIn = () => {
   const { colors } = useTheme();
@@ -58,6 +60,15 @@ export const SignIn = () => {
       }),
     );
   };
+
+  useEffect(() => {
+    async function loadData() {
+      const userColleaction = database.get('users');
+      const users = await userColleaction.query().fetch();
+      console.log(users, 'userWattermelon');
+    }
+    loadData();
+  }, []);
 
   return (
     <KeyboardAvoidingView behavior="position" enabled>

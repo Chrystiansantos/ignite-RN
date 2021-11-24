@@ -193,4 +193,146 @@ try {
 
 ## Instalação para ios
 
-Irei abri o xcode, para isso irei abrir a pasta do meu projeto, irei na pasta ios, e irei abrir o arquivo nomeProjeto.xcodeproj
+Primeiro passo irei instalar as libs:
+
+```bash
+  ❯ yarn add @nozbe/watermelondb
+  ❯ yarn add --dev @babel/plugin-proposal-decorators
+```
+
+Após instalar as libs irei adicionar essa posicao o meu array do babel, da seguinte forma:
+```js
+"plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }]
+  ]
+```
+
+Apos feito isso irei abrir meu app no xcode, e no nome do app da raiz irei criar uma file com o seguinte nome:
+
+<b>wmelon.swift</b>
+
+irei adicionar o seguinte ao meu podfile
+
+```ruby
+# If you're using autolinking, this line might not be needed
+pod 'WatermelonDB', :path => '../node_modules/@nozbe/watermelondb'
+
+# NOTE: Do not remove, needed to keep WatermelonDB compiling:
+pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi', :modular_headers => true
+
+# NOTE: This is required as of v0.23
+pod 'simdjson', path: '../node_modules/@nozbe/simdjson'
+```
+
+Feito isso irei na pasta ios, e rodar 
+```bash
+  ❯ pod install
+```
+
+A seguir iremos criar a estrutura da nossa base de dados. Entao dentro de src irei criar uma pasta chamada databases, e dentro dessa pasta vou criar outr chamada models, onde ira ficar as models da seguinte forma:
+
+```ts
+import { Model } from '@nozbe/watermelondb';
+import { field } from '@nozbe/watermelondb/decorators';
+
+export class User extends Model {
+  // Nome do nossa tabe e modelo
+  static table = 'users';
+
+  // Nome do campo na table
+  @field('user_id')
+  // nome do campo no model
+  user_id!: string;
+
+  @field('name')
+  name!: string;
+
+  @field('email')
+  email!: string;
+
+  @field('driver_license')
+  driver_license!: string;
+
+  @field('avatar')
+  avatar!: string;
+
+  @field('token')
+  token!: string;
+}
+
+```
+
+Para usar decorator preciso ir no ts-config e adicioanr o seguite trecho de codigo dentro de compileOptions:
+```json
+"experimentalDecorators": true
+```
+
+Agora irei criar uma pasta chamada schema. Que sera basicamente a representacao da tabela no banco de dados. Schema seria a definicao da tabela em si. Da seguinte forma:
+
+```ts
+  import { tableSchema } from '@nozbe/watermelondb';
+
+export const userSchema = tableSchema({
+  name: 'users',
+  columns: [
+    {
+      name: 'user_id',
+      type: 'string',
+    },
+    {
+      name: 'name',
+      type: 'string',
+    },
+    {
+      name: 'email',
+      type: 'string',
+    },
+    {
+      name: 'driver_license',
+      type: 'string',
+    },
+    {
+      name: 'avatar',
+      type: 'string',
+    },
+    {
+      name: 'token',
+      type: 'string',
+    },
+  ],
+});
+```
+
+Dentro de schema, irei criar um arquivo chamado index, pra quando precisar importar todos os schemas eu usar ele, farei isso da seguinte forma:
+
+```ts
+import { appSchema } from '@nozbe/watermelondb';
+
+import { userSchema } from './userSchemas';
+
+export const schemas = appSchema({
+  version: 1,
+  tables: [userSchema],
+});
+```
+
+Na raiz da pasta database, irei criar uma file, chamada index.ts que sera o arquivo responsavel pela conexao com o banco de dados, com o seguinte codigo:
+
+```ts
+import { Database } from '@nozbe/watermelondb';
+import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
+
+import { schemas } from './schemas';
+
+import { User } from './models/user';
+
+const adapter = new SQLiteAdapter({
+  schema: schemas,
+});
+
+export const database = new Database({
+  adapter,
+  modelClasses: [User],
+});
+
+```
