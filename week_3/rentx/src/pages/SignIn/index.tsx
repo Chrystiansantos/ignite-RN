@@ -42,9 +42,9 @@ export const SignIn = () => {
     } catch (error) {
       // Aqui verifico se o erro e do yup pois pode ser um erro da api etc
       if (error instanceof Yup.ValidationError) {
-        Alert.alert('Opa', error.message);
+        return Alert.alert('Opa', error.message);
       }
-      Alert.alert(
+      return Alert.alert(
         'Erro na autenticação',
         'Ocorreu um erro ao fazer login verifique suas credenciais',
       );

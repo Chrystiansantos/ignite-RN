@@ -334,5 +334,44 @@ export const database = new Database({
   adapter,
   modelClasses: [User],
 });
+```
 
+## Persisntindo dados no watermelon
+
+Primeiramente irei importar o database, a seguir irei importar o model, para que eu consiga usar a tipagem:
+
+
+```ts
+import { database } from '../../database';
+import { User as ModelUser } from '../../database/models/user';
+```
+Irei fazer a insercao da seguinte maneira:
+
+```ts
+
+  // Toda a modificacao de escrita edicao ou exclusao deve ser feita dentro desse write
+      await database.write(async () => {
+        // Primeiro resgato a minha colecao
+        const userCollection = database.get<ModelUser>('users');
+        // Toda a insercao de dados no watermelonprecisa ser dentro de uma action
+        await userCollection.create(newUser => {
+          newUser.user_id = user.id;
+          newUser.name = user.name;
+          newUser.email = user.email;
+          newUser.driver_license = user.driver_license;
+          newUser.avatar = user.avatar;
+          newUser.token = token;
+        });
+      });
+```
+****
+## Buscando dados no watermelon
+```ts
+  // Primeiro chamo a collection
+      const userCollection = database.get<ModelUser>('users');
+      // A seguir executo a query
+      const response = await userCollection.query().fetch();
+      // Aqui consigo pegar os dados, sempre preciso passar esse unknown e depos a tipoagem
+      const userData = response[0]._raw as unknown as IUser;
+  }, []);
 ```
