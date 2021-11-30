@@ -19,17 +19,25 @@ export const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     const loadData = async () => {
       try {
         const { data } = await api.get<ICarDTO[]>('/cars');
-        setCars(data);
+        if (isMounted) {
+          setCars(data);
+        }
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
     loadData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
