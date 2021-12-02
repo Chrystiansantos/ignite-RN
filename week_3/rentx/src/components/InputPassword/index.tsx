@@ -44,6 +44,7 @@ export const InputPassword = ({ iconName, value, ...rest }: IInputProps) => {
         onFocus={handleInputFocused}
         secureTextEntry={isPasswordVisible}
         isFocused={isFocused}
+        autoCorrect={false}
         {...rest}
       />
       <BorderlessButton onPress={handlePasswordVisibleChange}>
