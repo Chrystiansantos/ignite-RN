@@ -34,7 +34,7 @@ import { useAuth } from '../../hooks/auth';
 export const Profile = () => {
   const { colors } = useTheme();
   const { goBack } = useNavigation();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit');
   const [avatar, setAvatar] = useState(user.avatar);
   const [name, setName] = useState(user.name);
@@ -45,8 +45,12 @@ export const Profile = () => {
     goBack();
   };
 
-  const handleSignOut = () => {
-    console.log('Signout');
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleOptionChange = (optionSelected: 'dataEdit' | 'passwordEdit') => {
