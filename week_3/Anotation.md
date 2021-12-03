@@ -375,3 +375,34 @@ Irei fazer a insercao da seguinte maneira:
       const userData = response[0]._raw as unknown as IUser;
   }, []);
 ```
+
+## Acesando a galeria para coletar uma imagem
+
+Para poder selecionar a imagem irei utilizar o image-picker do expo.
+
+Primeiramente irei instalar da seguinte forma:
+
+```bash
+❯ expo install expo-image-picker
+```
+
+irei importa-lo da seguinte forma:
+
+```tsx
+import * as ImagePicker from 'expo-image-picker';
+
+const handleSelectAvatar = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      // Dessa forma ele conseguira editar somente images
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      // Permitir o usuario a editar a imagem
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+    if (result.cancelled) return;
+    if (result.uri) {
+      setAvatar(result.uri);
+    }
+  };
+```
