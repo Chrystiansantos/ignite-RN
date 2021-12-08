@@ -48,20 +48,30 @@ function AuthProvider({ children }: IAuthProviderProps) {
         password,
       });
       const { token, user } = response.data;
-      setData({ token, ...user });
       api.defaults.headers.authorization = `Bearer ${token}`;
       // Toda a modificacao de escrita edicao ou exclusao deve ser feita dentro desse write
       await database.write(async () => {
         // Primeiro resgato a minha colecao
         const userCollection = database.get<ModelUser>('users');
         // Toda a insercao de dados no watermelonprecisa ser dentro de uma action
-        await userCollection.create(newUser => {
+        const responseCreate = await userCollection.create(newUser => {
           newUser.user_id = user.id;
           newUser.name = user.name;
           newUser.email = user.email;
           newUser.driver_license = user.driver_license;
           newUser.avatar = user.avatar;
           newUser.token = token;
+        });
+        // eslint-disable-next-line no-underscore-dangle
+        const userCreate = responseCreate._raw as unknown as IUser;
+        setData({
+          avatar: userCreate.avatar,
+          driver_license: userCreate.driver_license,
+          email: userCreate.email,
+          id: userCreate.id,
+          name: userCreate.name,
+          token: userCreate.name,
+          user_id: userCreate.user_id,
         });
       });
     } catch (error) {
