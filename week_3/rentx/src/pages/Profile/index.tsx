@@ -3,12 +3,14 @@ import { useTheme } from 'styled-components';
 import { useNavigation } from '@react-navigation/core';
 import { Feather } from '@expo/vector-icons';
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import * as Yup from 'yup';
 
 import {
   Container,
@@ -30,11 +32,17 @@ import { BackButton } from '../../components/BackButton';
 import { Input } from '../../components/Input';
 import { InputPassword } from '../../components/InputPassword';
 import { useAuth } from '../../hooks/auth';
+import { Button } from '../../components/Button';
+
+const schema = Yup.object().shape({
+  driver_license: Yup.string().required('CNH é obrigatoria'),
+  name: Yup.string().required('Nome é obrigatorio'),
+});
 
 export const Profile = () => {
   const { colors } = useTheme();
   const { goBack } = useNavigation();
-  const { user, signOut } = useAuth();
+  const { user, signOut, updateUser } = useAuth();
   const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit');
   const [avatar, setAvatar] = useState(user.avatar);
   const [name, setName] = useState(user.name);
@@ -54,7 +62,6 @@ export const Profile = () => {
   };
 
   const handleOptionChange = (optionSelected: 'dataEdit' | 'passwordEdit') => {
-    console.log(optionSelected);
     setOption(optionSelected);
   };
 
@@ -70,6 +77,29 @@ export const Profile = () => {
     if (result.cancelled) return;
     if (result.uri) {
       setAvatar(result.uri);
+    }
+  };
+
+  const handleProfileUpdate = async () => {
+    try {
+      const data = { name, driver_license };
+      await schema.validate(data);
+      await updateUser({
+        id: user.id,
+        user_id: user.user_id,
+        email: user.email,
+        name,
+        driver_license,
+        avatar,
+        token: user.token,
+      });
+      Alert.alert('Perfil atualizado com sucesso !');
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        Alert.alert('Opss ...', error.message);
+      }
+      console.log(error);
+      Alert.alert('Opss ...', 'Não foi possivel atualizar o perfil');
     }
   };
 
@@ -144,6 +174,7 @@ export const Profile = () => {
                 <InputPassword iconName="lock" placeholder="Repetir senha" />
               </Section>
             )}
+            <Button title="Salvar alterações" onPress={handleProfileUpdate} />
           </Content>
         </Container>
       </TouchableWithoutFeedback>
