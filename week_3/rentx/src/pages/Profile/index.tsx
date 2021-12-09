@@ -55,7 +55,22 @@ export const Profile = () => {
 
   const handleSignOut = async () => {
     try {
-      await signOut();
+      Alert.alert(
+        'Tem certeza ?',
+        'Se você sair irá precisar se conectar novamente',
+        [
+          {
+            text: 'Cancelar',
+            // onPress: () => {},
+            style: 'cancel',
+          },
+          {
+            text: 'Sair',
+            onPress: () => signOut(),
+            style: 'destructive',
+          },
+        ],
+      );
     } catch (error) {
       console.log(error);
     }
@@ -98,7 +113,6 @@ export const Profile = () => {
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Opss ...', error.message);
       }
-      console.log(error);
       Alert.alert('Opss ...', 'Não foi possivel atualizar o perfil');
     }
   };
