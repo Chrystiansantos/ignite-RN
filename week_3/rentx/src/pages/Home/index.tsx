@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar, BackHandler } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useNavigation, CommonActions } from '@react-navigation/native';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 import { Container, Header, HeaderContent, TotalCars, CarList } from './styles';
 
@@ -14,6 +15,7 @@ import { LoadAnimation } from '../../components/LoadAnimation';
 
 export const Home = () => {
   const { dispatch } = useNavigation();
+  const { isConnected } = useNetInfo();
 
   const [cars, setCars] = useState<ICarDTO[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +41,14 @@ export const Home = () => {
       isMounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (isConnected) {
+      console.log('Voce esta conectado');
+    } else {
+      console.log('Voce esta of');
+    }
+  }, [isConnected]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {

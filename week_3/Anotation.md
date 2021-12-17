@@ -406,3 +406,28 @@ const handleSelectAvatar = async () => {
     }
   };
 ```
+
+## Verificando se o usuario possui acesso a internet.
+
+Para isso irei utilizar a seguinte lib => NetInfo
+
+```bash
+❯ expo install @react-native-community/netinfo
+```
+
+Irei importar da seguinte forma:
+
+```tsx
+import { useNetInfo } from '@react-native-community/netinfo';
+
+const { isConnected } = useNetInfo();
+
+useEffect(() => {
+    if (isConnected) {
+      console.log('Voce esta conectado');
+    } else {
+      console.log('Voce esta of');
+    }
+  }, [isConnected]);
+
+```
