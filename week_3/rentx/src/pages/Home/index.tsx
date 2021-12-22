@@ -4,6 +4,9 @@ import { StatusBar, BackHandler } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { useNetInfo } from '@react-native-community/netinfo';
+import { synchronize } from '@nozbe/watermelondb/sync';
+import { database } from '../../database';
+import { Car as ModelCar } from '../../database/models/car';
 
 import { Container, Header, HeaderContent, TotalCars, CarList } from './styles';
 
@@ -16,17 +19,17 @@ import { LoadAnimation } from '../../components/LoadAnimation';
 export const Home = () => {
   const { dispatch } = useNavigation();
   const { isConnected } = useNetInfo();
-
-  const [cars, setCars] = useState<ICarDTO[]>([]);
+  const [cars, setCars] = useState<ModelCar[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
     const loadData = async () => {
       try {
-        const { data } = await api.get<ICarDTO[]>('/cars');
+        const carCollection = database.get<ModelCar>('cars');
+        const carsDatabase = await carCollection.query().fetch();
         if (isMounted) {
-          setCars(data);
+          setCars(carsDatabase);
         }
       } catch (error) {
         console.log(error);
@@ -43,18 +46,34 @@ export const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (isConnected) {
-      console.log('Voce esta conectado');
-    } else {
-      console.log('Voce esta of');
-    }
-  }, [isConnected]);
-
-  useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
       return true;
     });
   }, []);
+
+  useEffect(() => {
+    if (isConnected) {
+      offlineSynchronize();
+    }
+  }, [isConnected]);
+
+  const offlineSynchronize = async () => {
+    await synchronize({
+      database,
+      pullChanges: async ({ lastPulledAt }) => {
+        const response = await api.get(
+          `cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`,
+        );
+        const { changes, latestVersion } = response.data;
+        // return { changes, timestamp: latestVersion };
+        return { changes: {}, timestamp: latestVersion };
+      },
+      pushChanges: async ({ changes }) => {
+        const { users } = changes;
+        await api.post(`/users/sync`, users);
+      },
+    });
+  };
 
   const handleCarDetails = (car: ICarDTO) => {
     dispatch(
