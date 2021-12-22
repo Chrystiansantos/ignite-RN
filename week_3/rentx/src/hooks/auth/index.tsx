@@ -30,6 +30,7 @@ interface IAuthContext {
   signIn: (creadentials: ISignInCredentials) => Promise<void>;
   signOut: () => Promise<void>;
   updateUser: (user: IUser) => Promise<void>;
+  loading: boolean;
 }
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
@@ -40,6 +41,7 @@ interface IAuthProviderProps {
 
 function AuthProvider({ children }: IAuthProviderProps) {
   const [data, setData] = useState<IUser>({} as IUser);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const signIn = async ({ email, password }: ISignInCredentials) => {
     // eslint-disable-next-line no-useless-catch
@@ -109,15 +111,18 @@ function AuthProvider({ children }: IAuthProviderProps) {
       if (response.length) {
         // eslint-disable-next-line no-underscore-dangle
         const userData = response[0]._raw as unknown as IUser;
-        setData(() => userData);
         api.defaults.headers.authorization = `Bearer ${userData.token}`;
+        setData(() => userData);
+        setLoading(false);
       }
     }
     loadUserData();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data, signIn, signOut, updateUser }}>
+    <AuthContext.Provider
+      value={{ user: data, signIn, signOut, updateUser, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -376,6 +376,39 @@ Irei fazer a insercao da seguinte maneira:
   }, []);
 ```
 
+## Sincronizando informacões, Buscando alteracoes e atualizando banco e app.
+
+Primeiramente irei importar o seguinte:
+
+```tsx
+import { synchronize } from '@nozbe/watermelondb/sync';
+import { database } from '../../database';
+```
+
+Irei criar uma funcão assincrona que sera responsavel por sincronizar as informacões
+
+```ts
+await synchronize({
+      // database
+      database,
+      // Atualizar informacoes do app, recuperando do back end
+      // lastPulledAt => ultima atualizacao
+      pullChanges: async ({ lastPulledAt }) => {
+        const response = await api.get(
+          `cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`,
+        );
+        const { changes, latestVersion } = response.data;
+        return { changes, timestamp: latestVersion };
+      },
+      // Atualiza informacoes do back, mudancas acontecidas do lado do app
+      // changes sao alteracoes realizadas
+      pushChanges: async ({ changes }) => {
+        const user = changes.users;
+        await api.post('/user/sync', user);
+      },
+    });
+```
+
 ## Acesando a galeria para coletar uma imagem
 
 Para poder selecionar a imagem irei utilizar o image-picker do expo.
