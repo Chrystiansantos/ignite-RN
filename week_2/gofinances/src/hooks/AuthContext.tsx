@@ -81,7 +81,7 @@ const AuthProvider = ({ children }: IAuthProviderProps) => {
         await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
       }
     } catch (error) {
-      throw new Error(error);
+      throw new Error('Deu ruim');
     }
   };
 
@@ -106,7 +106,7 @@ const AuthProvider = ({ children }: IAuthProviderProps) => {
         await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
       }
     } catch (error) {
-      throw new Error(error);
+      throw new Error('Deu ruim');
     }
   };
 
