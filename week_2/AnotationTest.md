@@ -34,12 +34,28 @@ import { render } from '@testing-library/react-native';
 
 import { ComponentASerTestado } from '../../Pages/ComponentTestado';
 
-test('check if show correctly user input name placeholder.', () => {
-    // Render ira retornar varios metodos que poderei acessar o componente
+describe('Nome do componente', () => {
+  it('Nome do caso de teste', () => {
     const { getByPlaceholderText } = render(<Profile />);
+
     const inputName = getByPlaceholderText('Nome');
-    // validacao do teste
+
     expect(inputName).toBeTruthy();
   });
+});
 
 ```
+
+Criando um arquivo de configuracao na raiz do projeto:
+
+Na raiz do meu projeto irei criar um arquivo com o seguinte nome "jest.config.js", com o seguinte codigo que copiei do package.js, da segiunte maneira:
+
+module.exports = {
+  preset: "jest-expo",
+  <!-- Pastas que irei ignorar ao realizar o teste, para ganhar um pouco de performace -->
+  testPathIgnorePatterns: ['/node_modules', '/android', '/ios'],
+  setupFilesAfterEnv: [
+    "@testing-library/jest-native/extend-expect"
+  ]
+}
+
