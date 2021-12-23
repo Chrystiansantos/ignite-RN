@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 import { AntDesign } from '@expo/vector-icons';
 import { format, parseISO } from 'date-fns';
-import { ICarDTO } from '../../dtos/ICarDTO';
 import { api } from '../../service/api';
 import {
   Container,
@@ -34,20 +33,13 @@ interface IDataProps {
   end_date: string;
 }
 
-interface ICarProps {
-  id: string;
-  user_id: string;
-  car: ICarDTO;
-  startDate: string;
-  endDate: string;
-}
-
 export const MyCars = () => {
   const [cars, setCars] = useState<IDataProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const { colors } = useTheme();
   const { goBack } = useNavigation();
+  const screenIsFocus = useIsFocused();
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -55,6 +47,7 @@ export const MyCars = () => {
         const { data } = await api.get('/rentals');
         const dataFormatted = data.map((el: IDataProps) => {
           return {
+            id: el.id,
             car: el.car,
             start_date: format(parseISO(el.start_date), 'dd/MM/yyyy'),
             end_date: format(parseISO(el.end_date), 'dd/MM/yyyy'),
@@ -68,7 +61,7 @@ export const MyCars = () => {
       }
     };
     fetchCars();
-  }, []);
+  }, [screenIsFocus]);
 
   const handleBack = () => {
     goBack();
