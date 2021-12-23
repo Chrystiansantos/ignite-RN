@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useNavigation,
   CommonActions,
@@ -15,10 +15,10 @@ import Animated, {
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { StatusBar, StyleSheet } from 'react-native';
 import { useTheme } from 'styled-components';
+import { useNetInfo } from '@react-native-community/netinfo';
 import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
-
 import {
   Container,
   Header,
@@ -33,13 +33,16 @@ import {
   Accessories,
   About,
   Footer,
+  OfflineInfo,
 } from './styles';
 import { Button } from '../../components/Button';
+import { Car as ModelCar } from '../../database/models/car';
 import { ICarDTO } from '../../dtos/ICarDTO';
 import { getAcessoryIcon } from '../../utils/getAccessoryIcon';
+import { api } from '../../service/api';
 
 interface IRouteParams {
-  car: ICarDTO;
+  car: ModelCar;
 }
 
 export const CarDetails = () => {
@@ -47,6 +50,8 @@ export const CarDetails = () => {
   const { dispatch, goBack } = useNavigation();
   const route = useRoute();
   const { car } = route.params as IRouteParams;
+  const [carUpdated, setCarUpdated] = useState<ICarDTO>({} as ICarDTO);
+  const { isConnected } = useNetInfo();
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler(event => {
@@ -74,6 +79,16 @@ export const CarDetails = () => {
     goBack();
   };
 
+  useEffect(() => {
+    async function fetchCarUpdated() {
+      const { data } = await api.get(`/cars/${car.id}`);
+      setCarUpdated(data);
+    }
+    if (isConnected) {
+      fetchCarUpdated();
+    }
+  }, [isConnected]);
+
   return (
     <Container>
       <StatusBar
@@ -93,7 +108,13 @@ export const CarDetails = () => {
         </Header>
         <Animated.View style={sliderCarsStyleAnimation}>
           <CarImages>
-            <ImageSlider imagesUrl={car.photos} />
+            <ImageSlider
+              imagesUrl={
+                carUpdated.photos
+                  ? carUpdated.photos
+                  : [{ id: car.thumbnail, photo: car.thumbnail }]
+              }
+            />
           </CarImages>
         </Animated.View>
       </Animated.View>
@@ -114,25 +135,33 @@ export const CarDetails = () => {
           </Description>
           <Rent>
             <Period>{car.period}</Period>
-            <Price>R$ {car.price}</Price>
+            <Price>R$ {isConnected ? car.price : '...'}</Price>
           </Rent>
         </Details>
-        <Accessories>
-          {car.accessories.map(accessory => (
-            <Accessory
-              key={accessory.type}
-              name={accessory.name}
-              icon={getAcessoryIcon(accessory.type)}
-            />
-          ))}
-        </Accessories>
+        {carUpdated.id && (
+          <Accessories>
+            {carUpdated.accessories.map(accessory => (
+              <Accessory
+                key={accessory.type}
+                name={accessory.name}
+                icon={getAcessoryIcon(accessory.type)}
+              />
+            ))}
+          </Accessories>
+        )}
         <About>{car.about}</About>
       </Animated.ScrollView>
       <Footer>
         <Button
           onPress={handleConfirmRental}
           title="Escolher período do aluguel"
+          enabled={!!isConnected}
         />
+        {!isConnected && (
+          <OfflineInfo>
+            Conecte-se a Internet para ver masi detalhes e agendar seu carro
+          </OfflineInfo>
+        )}
       </Footer>
     </Container>
   );

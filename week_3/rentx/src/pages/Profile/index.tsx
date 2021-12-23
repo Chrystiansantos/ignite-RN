@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { useNetInfo } from '@react-native-community/netinfo';
 import * as ImagePicker from 'expo-image-picker';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import * as Yup from 'yup';
@@ -42,6 +43,7 @@ const schema = Yup.object().shape({
 export const Profile = () => {
   const { colors } = useTheme();
   const { goBack } = useNavigation();
+  const { isConnected } = useNetInfo();
   const { user, signOut, updateUser } = useAuth();
   const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit');
   const [avatar, setAvatar] = useState(user.avatar);
@@ -77,6 +79,13 @@ export const Profile = () => {
   };
 
   const handleOptionChange = (optionSelected: 'dataEdit' | 'passwordEdit') => {
+    if (!isConnected && optionSelected === 'passwordEdit') {
+      Alert.alert(
+        'Voce está Offline',
+        'Para mudar a senha, conecte-se a internet',
+      );
+      return;
+    }
     setOption(optionSelected);
   };
 
