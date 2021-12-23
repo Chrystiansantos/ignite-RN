@@ -9,6 +9,7 @@ import {
 } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { Alert } from 'react-native';
+import { useNetInfo } from '@react-native-community/netinfo';
 import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
@@ -59,10 +60,11 @@ export const SchedulingDetails = () => {
     {} as IRentalPeriod,
   );
   const [loading, setLoading] = useState(false);
-
+  const [carUpdated, setCarUpdated] = useState<ICarDTO>({} as ICarDTO);
   const { colors } = useTheme();
   const { goBack, dispatch } = useNavigation();
 
+  const { isConnected } = useNetInfo();
   const route = useRoute();
   const { car, dates } = route.params as IParams;
 
@@ -71,22 +73,15 @@ export const SchedulingDetails = () => {
   const handleConfirmRental = async () => {
     try {
       setLoading(true);
-      const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
-      const unavailable_dates = [
-        ...schedulesByCar.data.unavailable_dates,
-        ...dates,
-      ];
-      await api.post('schedules_byuser', {
+
+      await api.post('/rentals', {
         user_id: 1,
-        car,
-        startDate: rentalPeriod.start,
-        endDate: rentalPeriod.end,
+        car_id: car.id,
+        start_date: new Date(dates[0]),
+        end_date: new Date(dates[dates.length - 1]),
+        total: rentTotal,
       });
 
-      await api.put(`/schedules_bycars/${car.id}`, {
-        id: car.id,
-        unavailable_dates,
-      });
       dispatch(
         CommonActions.navigate({
           name: 'Confirmation',
@@ -119,13 +114,28 @@ export const SchedulingDetails = () => {
     });
   }, []);
 
+  useEffect(() => {
+    async function fetchCarUpdate() {
+      const { data } = await api.get(`/cars/${car.id}`);
+      setCarUpdated(data);
+    }
+    if (isConnected) {
+      fetchCarUpdate();
+    }
+  }, []);
   return (
     <Container>
       <Header>
         <BackButton onPress={handleBack} color="" />
       </Header>
       <CarImages>
-        <ImageSlider imagesUrl={car.photos} />
+        <ImageSlider
+          imagesUrl={
+            carUpdated.photos
+              ? carUpdated.photos
+              : [{ id: car.thumbnail, photo: car.thumbnail }]
+          }
+        />
       </CarImages>
       <Content>
         <Details>
@@ -138,15 +148,17 @@ export const SchedulingDetails = () => {
             <Price>R$ {car.price}</Price>
           </Rent>
         </Details>
-        <Accessories>
-          {car.accessories.map(accessory => (
-            <Accessory
-              key={accessory.name}
-              name={accessory.name}
-              icon={getAcessoryIcon(accessory.type)}
-            />
-          ))}
-        </Accessories>
+        {carUpdated.accessories && (
+          <Accessories>
+            {car.accessories.map(accessory => (
+              <Accessory
+                key={accessory.name}
+                name={accessory.name}
+                icon={getAcessoryIcon(accessory.type)}
+              />
+            ))}
+          </Accessories>
+        )}
         <RentalPeriod>
           <CalendarIcon>
             <Feather name="calendar" size={RFValue(24)} color={colors.shape} />
