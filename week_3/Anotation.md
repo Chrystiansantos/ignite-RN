@@ -440,6 +440,29 @@ const handleSelectAvatar = async () => {
   };
 ```
 
+## Cache de imagem
+
+A lib react-native-fast-image apos o primeiro carregamento da imagem ele salva ela em cache e fica responsavel por validar, caso eu abra novamente o app ele nao busca novamente na api e sim carrega ela do proprio cache.
+
+Primeiro passo irei instalar a lib:
+
+```bash
+❯ yarn add react-native-fast-image
+```
+
+</b>Esta lib possui algumas dependencias nativas nesse caso e importante reiniciar o app após a instalacão</b>
+
+Irei importar da seguinte forma:
+
+```ts
+import FastImage from 'react-native-fast-image';
+
+export const CarImage = styled(FastImage)`
+  width: 168px;
+  height: 86px;
+`;
+```
+
 ## Verificando se o usuario possui acesso a internet.
 
 Para isso irei utilizar a seguinte lib => NetInfo
