@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 import { AntDesign } from '@expo/vector-icons';
+import { format, parseISO } from 'date-fns';
 import { ICarDTO } from '../../dtos/ICarDTO';
 import { api } from '../../service/api';
 import {
@@ -24,6 +25,14 @@ import {
 import { BackButton } from '../../components/BackButton';
 import { Car } from '../../components/Car';
 import { LoadAnimation } from '../../components/LoadAnimation';
+import { Car as ModelCar } from '../../database/models/car';
+
+interface IDataProps {
+  id: string;
+  car: ModelCar;
+  start_date: string;
+  end_date: string;
+}
 
 interface ICarProps {
   id: string;
@@ -34,7 +43,7 @@ interface ICarProps {
 }
 
 export const MyCars = () => {
-  const [cars, setCars] = useState<ICarProps[]>([]);
+  const [cars, setCars] = useState<IDataProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const { colors } = useTheme();
@@ -43,8 +52,15 @@ export const MyCars = () => {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const { data } = await api.get('/schedules_byuser?user_id=1');
-        setCars(data);
+        const { data } = await api.get('/rentals');
+        const dataFormatted = data.map((el: IDataProps) => {
+          return {
+            car: el.car,
+            start_date: format(parseISO(el.start_date), 'dd/MM/yyyy'),
+            end_date: format(parseISO(el.end_date), 'dd/MM/yyyy'),
+          };
+        });
+        setCars(dataFormatted);
       } catch (error) {
         console.log(error);
       } finally {
@@ -90,14 +106,14 @@ export const MyCars = () => {
                 <CarFooter>
                   <CarFooterTitle>Período</CarFooterTitle>
                   <CarFooterPeriod>
-                    <CarFooterDate>{item.startDate}</CarFooterDate>
+                    <CarFooterDate>{item.start_date}</CarFooterDate>
                     <AntDesign
                       name="arrowright"
                       size={20}
                       color={colors.title}
                       style={{ marginHorizontal: 10 }}
                     />
-                    <CarFooterDate>{item.endDate}</CarFooterDate>
+                    <CarFooterDate>{item.end_date}</CarFooterDate>
                   </CarFooterPeriod>
                 </CarFooter>
               </CarWrapper>

@@ -2,14 +2,14 @@ import { FlatList } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
-import { ICarDTO } from '../../dtos/ICarDTO';
+
+import { Car as ModelCar } from '../../database/models/car';
 
 interface ICarProps {
   id: string;
-  user_id: string;
-  car: ICarDTO;
-  startDate: string;
-  endDate: string;
+  car: ModelCar;
+  start_date: string;
+  end_date: string;
 }
 
 export const Container = styled.View`
@@ -71,9 +71,11 @@ export const CarWrapper = styled.View`
   margin-bottom: 16px;
 `;
 
-export const CarList = styled(FlatList as new () => FlatList<ICarProps>).attrs({
+export const CarList: new <T extends ICarProps>() => FlatList<T> = styled(
+  FlatList,
+).attrs({
   showsVerticalScrollIndicator: false,
-})``;
+})`` as any;
 
 export const CarFooter = styled.View`
   width: 100%;
