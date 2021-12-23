@@ -3,8 +3,11 @@
 Primeiro passo irei instalar a lib, da seguinte maneira:
 
 ```bash
+❯ expo install jest-expo jest
 ❯ yarn add --dev @testing-library/react-native
 ❯ yarn add --dev @testing-library/jest-native
+❯ yarn add react-test-renderer@17 --dev
+❯ yarn add @types/jest -D
 ```
 
 A seguir irei no meu package.json e verificar se existe o atributo, jest, caso nao tenha irei cria-ló da seguinte forma:
@@ -15,5 +18,28 @@ A seguir irei no meu package.json e verificar se existe o atributo, jest, caso n
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
     ]
-  }
+  },
+  "scripts": {
+    "test": "jest"
+  },
+```
+
+Irei apagar a pasta __test__, e irei criar uma nova pasta chamada __test__, dentro de src.
+
+Dentro da minha pasta de teste, irei criar uma outra pasta chamada screens, onde ficara os testes das minhas pages da seguinte forma:
+
+```tsx
+import React from 'react';
+import { render } from '@testing-library/react-native';
+
+import { ComponentASerTestado } from '../../Pages/ComponentTestado';
+
+test('check if show correctly user input name placeholder.', () => {
+    // Render ira retornar varios metodos que poderei acessar o componente
+    const { getByPlaceholderText } = render(<Profile />);
+    const inputName = getByPlaceholderText('Nome');
+    // validacao do teste
+    expect(inputName).toBeTruthy();
+  });
+
 ```
