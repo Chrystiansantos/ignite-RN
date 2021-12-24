@@ -59,3 +59,52 @@ module.exports = {
   ]
 }
 
+## Testando componentes que depende de contexto, de tema do styled-components
+
+Pra isso irei instalar a seguinte lib, *** No caso do styled-components ***
+
+```bash
+❯ yarn add jest-styled-components -D
+```
+Dentro da minha file de config "jest.config.js", no array de setupFilesAfterEnv irei adicionar uma nova posicao com o styled-components, da seguinte maneira
+
+```ts
+setupFilesAfterEnv: [
+    "@testing-library/jest-native/extend-expect",
+    "jest-styled-components"
+  ]
+```
+
+Dentro da minha file de teste irei precisar importar o tema, e o themeProvider
+
+```tsx
+import { ThemeProvider } from 'styled-components/native';
+import theme from '../../global/styles/theme';
+```
+
+A seguir precisarei criar uma constante que ira receber um componente que sera o pai do componente que estou testando, e assim irei conseguir testar envonvendo meu componente por conta do wrapper, que basicamente transforma o componente que esta dentro dele em pai, e o componente testando em filho, nesse caso esse children da constante abaixo se refere ao componente input, no caso
+
+```tsx
+const Providers:React.FC = ({children}) =>(
+  <ThemeProvider theme={theme}>{children}</ThemeProvider>
+)
+
+it('must have specific border colors when active', () => {
+    const { getByTestId } = render(
+      <Input
+        testID='="input-email"'
+        placeholder="E-mail"
+        keyboardType="email-address"
+        autoCorrect={false}
+        active
+      />,
+      {
+        // wrapper seria algum coponent infor por volta do meu component de imput exemplo o contexto
+        wrapper: Providers,
+      },
+    );
+    const inputComponent = getByTestId('input-email');
+    expect(inputComponent.props.style[0].borderColor).toEqual('#e83f5b');
+    expect(inputComponent.props.style[0].borderWidth).toEqual(3);
+  });
+```
