@@ -21,7 +21,7 @@ describe('Input Component', () => {
         active
       />,
       {
-        // wrapper seria algum coponent infor por volta do meu component de imput exemplo o contexto
+        // wrapper seria algum coponent informado por volta do meu component de imput exemplo o contexto
         wrapper: Providers,
       },
     );
