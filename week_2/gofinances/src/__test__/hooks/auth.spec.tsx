@@ -29,7 +29,7 @@ describe('Auth hook', () => {
 
   it('should be able to sign in with Google account existing', async () => {
     const googleMocked = mocked(startAsync as any);
-    googleMocked.mockReturnValue({
+    googleMocked.mockReturnValueOnce({
       type: 'success',
       params: {
         access_token: 'any_token',
