@@ -1,8 +1,9 @@
 import React from 'react';
+import { RectButtonProps } from 'react-native-gesture-handler';
 
 import { Container, Category, Icon } from './styles';
 
-interface ICategorySelectProps {
+interface ICategorySelectProps extends RectButtonProps {
   title: string;
   onPress: () => void;
 }
@@ -10,9 +11,10 @@ interface ICategorySelectProps {
 export const CategorySelectButton = ({
   title,
   onPress,
+  testID,
 }: ICategorySelectProps) => {
   return (
-    <Container onPress={onPress}>
+    <Container onPress={onPress} testID={testID}>
       <Category>{title}</Category>
       <Icon name="chevron-down" />
     </Container>
