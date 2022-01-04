@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
 import * as mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,7 +16,7 @@ const Providers: React.FC = ({ children }) => (
 );
 
 describe('Register', () => {
-  it('should be open category modal when user click on the category button', () => {
+  it('should be open category modal when user click on the category button', async () => {
     const { getByTestId } = render(<Register />, {
       wrapper: Providers,
     });
@@ -24,7 +24,10 @@ describe('Register', () => {
     const buttonCategory = getByTestId('button-category');
 
     fireEvent.press(buttonCategory);
-
-    expect(categoryModal.props.visible).toBeTruthy();
+    // WaitFor serve basicamente pra aguardar promessas serem resolvidas
+    // Pra usar o wait for minha funcao precisar se async
+    waitFor(() => {
+      expect(categoryModal.props.visible).toBeTruthy();
+    });
   });
 });
