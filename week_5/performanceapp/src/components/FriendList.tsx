@@ -8,9 +8,10 @@ interface ISearchResultProps {
     name: string;
     likes: number;
   }[];
+  follow: () => void;
 }
 
-export const FriendList = ({ data }: ISearchResultProps) => {
+export const FriendList = ({ data, follow }: ISearchResultProps) => {
 
   const totalLikes = useMemo(() => {
     return data.reduce((acc, { likes }) => {
@@ -23,7 +24,7 @@ export const FriendList = ({ data }: ISearchResultProps) => {
       <Text>Total de likes: {totalLikes}</Text>
       {
         data.map(friend => (
-          <Friend key={String(friend.id)} data={friend} />
+          <Friend key={String(friend.id)} data={friend} follow={follow} />
         ))
       }
     </View>

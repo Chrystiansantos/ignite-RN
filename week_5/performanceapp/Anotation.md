@@ -56,3 +56,13 @@ Funcao utilizada para memorizar valor, e ser recalculado somente quando esses va
 ```
 
 <b>Obs:</b> Indicado pra quando for realizar calculos pesados em meu app.
+
+## useCallback
+
+Em todas as reenderizacoes a funcao sera recriada em um novo endereco de memoria, por este motivo utiliza-se o useCallback, que consiste em não alterar o endereco de memoria, e a cada alteracao sera feito uma nova atribuicao.
+
+```tsx
+const handleFollow = useCallback(() => {
+    console.log("follow user");
+  }, [])
+```
