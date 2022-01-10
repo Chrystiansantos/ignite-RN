@@ -42,3 +42,17 @@ export const Friend = memo(FriendComponent, (prevProps, nextProps) => {
 ```
 
 <b>Obs:</b> Não vou sair usando memo em todo componente, ele e usado em componentes puros, (componente que apenas possuem exibicao de dados em tela).
+
+## useMemo
+
+Funcao utilizada para memorizar valor, e ser recalculado somente quando esses valores forem alterados. Nao devo utilizar em calculos simples pois se nao resultara em um efeito contrario
+
+```tsx
+ const totalLikes = useMemo(() => {
+    return data.reduce((acc, { likes }) => {
+      return acc + likes;
+    }, 0)
+  }, [data]);
+```
+
+<b>Obs:</b> Indicado pra quando for realizar calculos pesados em meu app.
