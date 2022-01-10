@@ -14,3 +14,31 @@ Pra executar o dev-tools vou rodar o seguinte comando:
 ❯ yarn react-devtools
 ```
 
+## Memo
+
+Utilizando a funcão memo, eu consigo memorizar as informacões do meu componente e passar pra ela um criterio de reenderizacao, pra saber quando esse componente devera ser reenderizado novamente, da seguinte forma:
+
+```tsx
+// Se o meu criterio retorna true, ele permanece o componente, caso retorne false ele reenderiza o componente novamente.
+
+import React, { memo } from 'react';
+import { Text } from 'react-native';
+
+interface IItemProps {
+  data: {
+    name: string;
+    likes: number
+  }
+}
+
+export const FriendComponent = ({ data }: IItemProps) => {
+  return <Text>{data.name} - Likes: {data.likes}</Text>;
+}
+// prevProps => como esta as props atual
+// nextProps => com esta as props apos a nova rrenderizacao
+export const Friend = memo(FriendComponent, (prevProps, nextProps) => {
+  return Object.is(prevProps.data, nextProps.data);
+})
+```
+
+<b>Obs:</b> Não vou sair usando memo em todo componente, ele e usado em componentes puros, (componente que apenas possuem exibicao de dados em tela).
