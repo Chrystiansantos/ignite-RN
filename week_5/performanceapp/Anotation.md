@@ -66,3 +66,30 @@ const handleFollow = useCallback(() => {
     console.log("follow user");
   }, [])
 ```
+
+## Performando listas
+
+Ao inves de reenderizar uma lista dessa forma:
+
+```tsx
+{data.map(friend => (
+        <Friend key={String(friend.id)} data={friend} follow={follow} />
+      ))}
+```
+
+Irei reenderizar desta maneira:
+
+```tsx
+ <FlatList
+        data={data}
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
+          <Friend data={item} follow={follow} />
+        )}
+      />
+```
+
+# Dicas
+
+- Evite ao maximo fazer calculos dentro do jsx.
+  - Caso precise formartar os dados que venha de um request, por exemplo que eu os formate dentro da propria funcao que realiza o request.

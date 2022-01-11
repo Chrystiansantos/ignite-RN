@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import { Friend } from './Friend';
 
 interface ISearchResultProps {
@@ -22,11 +22,13 @@ export const FriendList = ({ data, follow }: ISearchResultProps) => {
   return (
     <View>
       <Text>Total de likes: {totalLikes}</Text>
-      {
-        data.map(friend => (
-          <Friend key={String(friend.id)} data={friend} follow={follow} />
-        ))
-      }
+      <FlatList
+        data={data}
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
+          <Friend data={item} follow={follow} />
+        )}
+      />
     </View>
   )
 }

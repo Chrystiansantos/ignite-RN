@@ -28,9 +28,7 @@ export const Home = () => {
         style={styles.input}
       />
       <Button title="Buscar" onPress={handleSearch}></Button>
-      <ScrollView style={styles.list}>
-        <FriendList data={friends} follow={handleFollow} />
-      </ScrollView>
+      <FriendList data={friends} follow={handleFollow} />
     </View>
   );
 }
@@ -51,8 +49,5 @@ const styles = StyleSheet.create({
     padding: 7,
     marginBottom: 10,
     marginVertical: 10
-  },
-  list: {
-    marginTop: 20
   }
 })
