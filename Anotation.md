@@ -125,7 +125,7 @@ E irei atualizar ele com o seguinte conteudo.
 Onde cada valor dentro de **styles.xml** significa:
  - android:textColor, cor padrão do texto.
  - android:statusBarColor, cor padrão da statusbar, @colors/app_bg, estou herdando essa cor la de dentro do arquivo colors.xml
- - android:windowLightStatusBarco, para a statusbar ficar com um fundo branco
+ - android:windowLightStatusBar, para a statusbar ficar com um fundo branco
  - android:windowBackground, cor de background das telas do app
  - android:statusBarColor, cor de fundo da statusBar na splash
  - android:background, cor de fundo do icone, @drawable/background_splash estou herdando essa cor de dentro do arquivo @drawable
@@ -225,4 +225,58 @@ Irei pegar os arquivos baixados e copia-los para o seguinte diretorio.
     myskills/android/app/src/main/res/mipmap-xxxhdpi
     ```
 
-  
+### Segurando a splash ate que o app seja totalmente carregado
+
+Irei instalar a seguinte lib no terminal.
+
+```bash
+❯ yarn add react-native-splash-screen
+❯ npx react-native link react-native-splash-screen
+```
+
+Irei acessar o seguinte arquivo:
+
+```
+project_name/android/app/src/main/java/com/project_name/MainActivity.java
+```
+
+Dentro do **MainActivity** irei adicionar o seguinte trecho de codigo, antes do primeiro @override. E adicionar as 2 importacoes
+
+```java
+import org.devio.rn.splashscreen.SplashScreen; // Adicione esse import
+import android.os.Bundle; // Adicione esse import
+
+ @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.show(this);
+        super.onCreate(savedInstanceState);
+    }
+```
+
+Agora dentro do seguinte diretorio irei criar uma nova pasta chamada **layout**. E dentro dessa pasta irei criar uma arquivo com o seguinte nome **"launch_screen.xml"**.
+
+```
+project_name/android/app/src/main/res
+```
+
+Apos criar o arquivo irei adicionar o seguinte trecho de codigo:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/background_splash"
+  android:orientation="vertical">
+</LinearLayout>
+```
+
+Após essas configuracoes irei no meu arquivo App.tsx, e irei adicionara importacao e um useEffct pra remover a splash somente apos o app ser carregado.
+
+```tsx
+import SplashScreen from 'react-native-splash-screen';
+
+useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+```
