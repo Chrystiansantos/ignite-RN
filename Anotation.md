@@ -289,7 +289,7 @@ useEffect(() => {
 
   <a href="https://reactnative.dev/docs/signed-apk-android">Publishing to Google Play Store</a><br>
 
-  Primeiramente preciso gerar uma assinatura pra fazer upload do meu app. Pra isso vou entrar dentro da pasta android, em seguida vou executar o seguinte comando, que ira gerar um arquivo na raiz chamado **production-android.keystore**
+  Primeiramente preciso gerar uma assinatura pra fazer upload do meu app. Pra isso vou entrar dentro da pasta android/app, em seguida vou executar o seguinte comando, que ira gerar um arquivo chamado **production-android.keystore**
 
 ```bash
 keytool -genkeypair -v -storetype PKCS12 -keystore production-android.keystore -alias production-android -keyalg RSA -keysize 2048 -validity 10000
@@ -333,7 +333,12 @@ release {
         }
 ```
 
-Logo abaixo irei alterar a seguinte linha de debbug para release:
+Logo abaixo irei alterar a seguinte linha de debbug para release, dentro de 
+buildTypes: {
+  releases:{
+    
+  }
+}
 
 signingConfig signingConfigs.debug => signingConfig signingConfigs.release
 
@@ -357,3 +362,70 @@ O meu bundle sera gerando dentro do seguinte diretorio:
 ```bash
 projetct_name/app/build/outputs/bundle/release/app-release.aab
 ```
+
+## Configurando a Google Play Store
+
+Primeiramente irei acessar a **Google Play Console** no seguinte linke:
+
+<a href="https://play.google.com/intl/pt-BR/console/about/">Google Play Console</a><br>
+
+Irei clicar em **Criar App**.
+ 
+ Irei inserir as seguintes informacoes:
+  - Nome do app.
+  - Selecionar o idioma padrão.
+  - Informar se e um App ou um jogo.
+  - Informar se e gratuito ou pago.
+  - Confirmar as delcaracões
+
+Após esses passos irei clicar novamente em **Criar App**
+
+Agora irei clicar em **Presenca na loja** e em seguida **Versao principal da pagina detalhes di app**
+
+- Teremos o nome do app.
+- Podemos adicionar uma breve descricao.
+- Abaixo poderemos adicionar uma descricao mais completa.
+
+Agora iremos adicionar os elementso graficos.
+
+No nosso template do Figma irei exportar o meu icone que esta ao lado da splash com a cor de fundo pra fazer upload no **Icone do aplicativo**. Esse será o icone que ira aparecer na loja no momento de fazer a instalacao.
+
+Para o **Recurso Grafico**, existe um banner no template que eu posso exporta-lo, e irei fazer upload desse baner.
+
+Para **Capturas de tela do telefone** irei abrir meu template no figma e irei pegar algumas screendshots do meu app para fazer upload.
+
+Após isso irei clicar em **Salvar**.
+
+Agora irei clicar em Painel, e vou em configurar o App.
+
+E vou configurar o **Acesso do app**
+
+  E vou informar se todos os recursos estao disponiveis ou se algum sao restritos.
+   - Caso tenha algum recursos que seja restrito (Por exemplo um app com autenticacao) precisarei preencher um usuario de teste. No caso se possuir autenticacao social nao preciso informar pois eles ja possuem
+
+E vou configurar o **Os anuncios**
+  - Caso meu app tenha anuncios irei clicar em sim, caso contrario nao
+
+E vou configurar o **Classificacao de conteudo**
+  - Vou responder um questionario para receber uma classificao, referente ao meu app.
+
+E vou configurar o **publico alvo do app**.
+  - Vou selecionar a faixa de idade.
+
+E vou configurar se e um app de noticias, no caso ele faz essa pergunta devido a questoes de fake news.
+ - Vou selecionar sim ou nao.
+
+Agora irei selecionar uma categoria do app e fornecer alguns detalhes.
+
+Antes de publicar e disponibilizar nosso app pra todos os usuario precisamos testar, entao podemos disponibilizar primeiramente pra tester, e apos os testes conseguimos liberar pra producao.
+
+Irei clicar em **Teste, Teste interno**.
+ Após isso irei clicar em criar uma nova versão.
+  - Irei cliecar em continuar.
+  - Em seguida irei pegar o meu bundle e irei arrasta-lo pra dentro do navegador.
+  - Apos isso irei atualizar as informacoes de versao
+  - Agora irei clciar em teste interno, irei clicar em testadores, e poderei adicionar uma lista de testadores. clicando em Criar lista de emails.
+  - Irei clicar em **Salvar alteracoes**.
+  - Sera disponibilizado um link, que poderei enviar pra algum usuario que eu  queira que ele teste.
+
+Agora irei clicar em **Visao Geral das Versoes**, vou clicar em e clico na seta pra visualizar a versão, e posso clicar em **Avaliar a versao** e clicarei em **Iniciar lancamento para testes internos**.
