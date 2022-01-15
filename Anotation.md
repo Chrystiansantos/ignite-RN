@@ -280,3 +280,80 @@ useEffect(() => {
     SplashScreen.hide();
   }, []);
 ```
+
+  ## Gerando Android App Bundle
+
+  Gerando o arquivo de distribuicao do nosso App. Para poder envia-lo a Google Play.
+
+  Irei acessar o seguinte link pra seguir a documentacao:
+
+  <a hrref="https://reactnative.dev/docs/signed-apk-android">Publishing to Google Play Store</a>
+
+  Primeiramente preciso gerar uma assinatura pra fazer upload do meu app. Pra isso vou entrar dentro da pasta android, em seguida vou executar o seguinte comando, que ira gerar um arquivo na raiz chamado **production-android.keystore**
+
+```bash
+keytool -genkeypair -v -storetype PKCS12 -keystore production-android.keystore -alias production-android -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Em seguida irei criar uma senha pra minha chave. E irei confirmar, apos isso ele pedira algumas informacoes eu digitarei tudo enter. Pois depois irei preencher.
+
+Agora irei definir as variaveis para acessar essa minha chave.
+
+Irei acessar a seguinte pasta para configurar minha chave local, na minha maquina acessando o seguinte endereco:
+
+```bash
+code ~/.gradle/gradle.properties
+```
+E dentro dele irei inserir o seguinte codigo:
+
+```gradle
+MYAPP_UPLOAD_STORE_FILE= nome da minha chave que acabei de criar dentro da pasta android "production-android.keystore"
+MYAPP_UPLOAD_KEY_ALIAS= nome da minha alias referente a chave que acabei de criar "production-android"
+MYAPP_UPLOAD_STORE_PASSWORD=Senha que criei
+MYAPP_UPLOAD_KEY_PASSWORD=senha que criei
+```
+
+
+Agora precisarei acessar o seguinte arquivo:
+
+```bash
+project_name/android/app/build.gradle
+```
+
+Irei procurar por signingConfigs e dentro da chaves irei adicionar a seguinte configuracao de release
+
+```gradle
+release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
+        }
+```
+
+Logo abaixo irei alterar a seguinte linha de debbug para release:
+
+signingConfig signingConfigs.debug => signingConfig signingConfigs.release
+
+Irei pesquisar por essa linha dentro da minha file de gradle e alterar para true.
+```gradle
+<!-- Mecanismo pra acelar a inicializacao de aplicacoes -->
+project.ext.react = [
+    enableHermes: true,  // clean and rebuild if changing
+]
+<!-- Para o meu app enviar o bundle pra store, e ela redireciar o mais otimizado ao usuario -->
+def enableProguardInReleaseBuilds = true 
+```
+
+**Agora irei gerar minha build executando o seguinte comando dentro da pasta android:**
+
+```bash
+./gradlew bundleRelease
+```
+O meu bundle sera gerando dentro do seguinte diretorio:
+
+```bash
+projetct_name/app/build/outputs/bundle/release/app-release.aab
+```
