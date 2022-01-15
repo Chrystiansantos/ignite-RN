@@ -2,10 +2,10 @@
 
 Primeiro, preciso criar uma conta de dev, no seguinte link abaixo:
 
-<a hrref="https://developer.apple.com/programs/">Apple Developer Program</a>
-<a hrref="https://developer.apple.com/app-store/review/guidelines/">Apple Store Review Guidelines</a><br>
+<a href="https://developer.apple.com/programs/">Apple Developer Program</a>
+<a href="https://developer.apple.com/app-store/review/guidelines/">Apple Store Review Guidelines</a><br>
 
-<a hrref="https://play.google.com/intl/pt-BR/console/about/">Google Play Console</a>
+<a href="https://play.google.com/intl/pt-BR/console/about/">Google Play Console</a>
 
 **Quando meu app tiver umas pequenas funcionalides, funcionando que permite utilizar o minimo, ja devo fazer um deploy pra ios**
 
@@ -287,7 +287,7 @@ useEffect(() => {
 
   Irei acessar o seguinte link pra seguir a documentacao:
 
-  <a hrref="https://reactnative.dev/docs/signed-apk-android">Publishing to Google Play Store</a>
+  <a href="https://reactnative.dev/docs/signed-apk-android">Publishing to Google Play Store</a><br>
 
   Primeiramente preciso gerar uma assinatura pra fazer upload do meu app. Pra isso vou entrar dentro da pasta android, em seguida vou executar o seguinte comando, que ira gerar um arquivo na raiz chamado **production-android.keystore**
 
@@ -339,11 +339,11 @@ signingConfig signingConfigs.debug => signingConfig signingConfigs.release
 
 Irei pesquisar por essa linha dentro da minha file de gradle e alterar para true.
 ```gradle
-<!-- Mecanismo pra acelar a inicializacao de aplicacoes -->
+<!-- Mecanismo pra acelerar a inicializacao de aplicacoes -->
 project.ext.react = [
     enableHermes: true,  // clean and rebuild if changing
 ]
-<!-- Para o meu app enviar o bundle pra store, e ela redireciar o mais otimizado ao usuario -->
+<!-- Para o meu app enviar o bundle pra store, e ela redirecionar o mais otimizado ao usuario -->
 def enableProguardInReleaseBuilds = true 
 ```
 
