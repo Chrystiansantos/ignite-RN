@@ -429,3 +429,50 @@ Irei clicar em **Teste, Teste interno**.
   - Sera disponibilizado um link, que poderei enviar pra algum usuario que eu  queira que ele teste.
 
 Agora irei clicar em **Visao Geral das Versoes**, vou clicar em e clico na seta pra visualizar a versão, e posso clicar em **Avaliar a versao** e clicarei em **Iniciar lancamento para testes internos**.
+
+## Instalando app pra teste.
+
+ Irei clicar em **Teste**, **Teste interno** clicarei em testaadores e irei copiar o link ao final da pagina, que sera o link de download do meu app.
+
+## Disponiblizando o App em producao.
+
+Irei clicar em **Visao Geral das Versoes**, irei clicar em **Producão** logo abaixo.
+
+  Em seguida irei selecionar **Paises/regiões**
+   - Vou selecionar quais paises e regioes eu desejo que meu app esteja disponivel.
+   - Após isso irei clicar em **Criar uma nova versão**, porém não precisamos fazer o upload novamente, irei clicar em **Adicionar biblioteca** e selecionar o bundle que enviei anteriormente.
+   - Logo abaixo irei preencher os detalhes de versao novamente.
+   - Clico em **Avaliar versão**, e em seguida clico em **Iniciar lancamento para Producão**.
+   - Agora irei aguardar a revisao ser concluida.
+  <br>
+  <br>
+  <br>
+# IOS
+
+## Configurando icones no ios.
+
+Primeiro passo irei acessar a pasta ios e rodar o seguinte comando:
+
+```bash
+❯ pod install
+```
+
+Irei abrir o meu projeto, no xcode, navegando ate a pasta do meu projeto e abrindo o seguinte arquivo dentro de ios/project_name.xcworkspace.
+  - Em seguida irei clicar no nome do meu app e ira abrir uma cascata de pastas abaixo.
+  - Irei clicar em **Images**, e logo em seguida clicar em **AppIcon**
+  - Irei no meu template do figma e irei baixar os meus icones para que eu possa utiliza-los.
+    - Clicando no icone do Figma a esquerda, **File, Export**, e irei exportar todos os arquivos necessarios.
+  - Irei abrir a pasta onde salve os icones e irei arrastar eles pra respectiva box, dentro do Xcode.
+
+
+## Alterando o nome do App.
+  Irei clicar no nome do projeto. Em seguida em General e irei editar o input **Display Name** sendo assim ele ira atualizar o nome do meu app.
+
+  No identificador do bundle, irei fazer da mesma forma que fiz no android:
+  **com.myskills**
+
+### Desativando a rotacao, caso o usuario gire a tela ela nao vire o app.
+  Irei clicar no nome do projeto. Em seguida em General e irei desmarcar os seguintes check-box:
+   - Landscap Left
+   - Landscap Right
+  

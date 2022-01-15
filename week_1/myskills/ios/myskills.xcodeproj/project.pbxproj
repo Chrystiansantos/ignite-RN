@@ -145,7 +145,6 @@
 				4595AD7FB74DC67FD73B6FD5 /* Pods-myskills-myskillsTests.debug.xcconfig */,
 				0DBF3BC854356C63FFE1F1D2 /* Pods-myskills-myskillsTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
