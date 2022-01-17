@@ -271,7 +271,7 @@ Apos criar o arquivo irei adicionar o seguinte trecho de codigo:
 </LinearLayout>
 ```
 
-Após essas configuracoes irei no meu arquivo App.tsx, e irei adicionara importacao e um useEffct pra remover a splash somente apos o app ser carregado.
+Após essas configuracoes irei no meu arquivo App.tsx, e irei adicionar a importacao e um useEffct pra remover a splash somente apos o app ser carregado.
 
 ```tsx
 import SplashScreen from 'react-native-splash-screen';
@@ -488,3 +488,40 @@ Irei abrir o meu projeto, no xcode, navegando ate a pasta do meu projeto e abrin
   - Agora vou clicar em LaunchScreen novamente. Para eu adicionar a imagem que acabei de importar na tela.
   - Irei clicar em View, e em seguida no +, irei selecionar Image View e arrastar pra tela.
   - Irei clicar no meu box de image, e em seguida a direita irei clicar no input de image, e selecionar a imagem que acabei de inserir
+
+### Segurando a splash ate que o app seja totalmente carregado IOS
+
+Irei instalar a seguinte lib no terminal.
+
+```bash
+❯ yarn add react-native-splash-screen
+❯ npx react-native link react-native-splash-screen
+```
+Entrar  na pasta ios e rodar o seguinte comando:
+
+```bash
+❯ pod install
+```
+
+A seguir irei abrir a pasta IOS, dentro dela terei o arquivo com o seguinte nome, **AppDelegate.m**. E irei adicionar as seguintes linhas:
+
+```m
+#import "RNSplashScreen.h"
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+  // ...
+  [RNSplashScreen show];
+  return YES;
+}
+```
+
+Após essas configuracoes irei no meu arquivo App.tsx, e irei adicionar a importacao e um useEffct pra remover a splash somente apos o app ser carregado.
+
+```tsx
+import SplashScreen from 'react-native-splash-screen';
+
+useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+```
