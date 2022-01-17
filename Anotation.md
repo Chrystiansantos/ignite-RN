@@ -476,3 +476,15 @@ Irei abrir o meu projeto, no xcode, navegando ate a pasta do meu projeto e abrin
    - Landscap Left
    - Landscap Right
   
+## Configurando a SplashScreen
+
+  Irei clicar em **LaunshScreen** dentro do meu projeto no xcode.
+
+  Irei clicar nos textos, que estao na tela e pressionar delete no teclado.
+  E pra customizar minha splash eu seleciono o fundo e posso clicar no background a direita pra altera-lo.
+  Irei clicar em Images, dentro do meu projeto **Mesmo que cliquei pra criar o icone**, e logo abaixo irei clicar no +.
+  E irei clicar em Image Set
+  - Entao vou no figma, vou selecioanr o icone da minha aplicacão. **Agora e somente o icone e irei exporta-lo em 1x 2x e 3x**
+  - Agora vou clicar em LaunchScreen novamente. Para eu adicionar a imagem que acabei de importar na tela.
+  - Irei clicar em View, e em seguida no +, irei selecionar Image View e arrastar pra tela.
+  - Irei clicar no meu box de image, e em seguida a direita irei clicar no input de image, e selecionar a imagem que acabei de inserir
