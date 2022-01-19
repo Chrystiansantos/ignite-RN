@@ -607,3 +607,9 @@ Agora irei clicar na janela que havia aparecido antes, clicar em:
 Agora ele ira resumir sobre o App, e caso esteja tudo ok, irei clicar em upload. Para ele enviar o app, pra store.
 
 Agora irei na loja, e poderei clicar em **TestFlight** e aguardar ele carregar o app.
+
+## Distribuindo o App pra tester.
+
+Dentro da loja irei clciar no meu app, em seguida no canto direito em grupo externo, irei clicar no **+** e irei inserir o nome do grupo de testers, e irei adicionar os emails em seguida.
+
+Apos a insercao do email, irei clicar em adicionar compilacao, e irei selecionar o nosso app. E clicar em proximo.
