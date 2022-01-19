@@ -525,3 +525,35 @@ useEffect(() => {
     SplashScreen.hide();
   }, []);
 ```
+## Criando um App Id
+
+Primeiramente irei fazer login no site de developers, da apple:
+
+<a href="https://developer.apple.com/">Apple Developer Program</a>
+
+Irei clicar em:
+ - Certificates, Identifiers & Profiles.
+ - Identifiers
+ - Sinalzinho de +
+ - AppIds, continue.
+ - App, continue
+
+Irei adicionar uma descricao.
+
+A seguire em **BUndle ID**, irei selecionar explicit, e irei pegar o bundle do meu app dentro do xcode. Entrando no projeto, clicando **NomeProjeto** abaixo de **Targets** e irei pegar o **Bundle Identifier** a direita.
+
+Logo abaixo irei marcar as opcoes que contenha em meu app. Exemplo:
+ - Autenticacao com apple.
+ - Push Notifications.
+ - Entre outros.
+
+Em seguida irei clicar em continue.
+
+A seguir clicar em **Register**.
+
+Irei voltar no Xcode, clicar em Signing & Capabilities. E no select de **Team** irei selecionar o meu usuario.
+
+Apos isso irei clicar em project_nameTests abaixo de **Targets** e irei fazer o mesmo processo. Clicar no select de **Team** e selecionar o meu usuario
+
+**Muito importante que eu esteja logando com minha conta Apple**
+
