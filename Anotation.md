@@ -506,7 +506,8 @@ Entrar  na pasta ios e rodar o seguinte comando:
 A seguir irei abrir a pasta IOS, dentro dela terei o arquivo com o seguinte nome, **AppDelegate.m**. E irei adicionar as seguintes linhas:
 
 ```m
-#import "RNSplashScreen.h"
+// Abaixo do <React/RCTootView.h>
+#import <RNSplashScreen.h>
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -557,3 +558,52 @@ Apos isso irei clicar em project_nameTests abaixo de **Targets** e irei fazer o 
 
 **Muito importante que eu esteja logando com minha conta Apple**
 
+## Gerando IPA do App.
+
+Irei clicar em **info.plist**, dentro da pasta do meu projeto.
+
+Irei no final, clicar com o direito e **Add row**, irei adicionar a seguinte informacao:
+
+| Key                            |  Type   | Value |
+| ------------------------------ | :-----: | ----: |
+| App Uses Non-Exempt Encryption | Boolean |    NO |
+
+**App Uses Non-Exempt Encryption** => Se meu app usa criptografia além do que a Apple disponibiliza
+
+Onde eu seleciono o device, irei clicar no seguinte **Any IOS Device(arm64, armv7)**
+
+Irei clicar em **Product** no topo da tela. Em seguida **Archive**. Apos clicar ele ira comecar a gerar o App para que consigamos, detribui-lo na loja.
+
+Em seguida ele ira abrir uma janela. Para que possa enviar o App pra loja. Mas antes preciso criar o projeto dentro da Apple Store.
+
+<a href="https://developer.apple.com/">Apple Developer Program</a>
+
+Irei acessar, clicar em:
+  - Account
+  - App Store Connect
+  - Go To App Store Connect
+  - Meus Apps
+  - Sinal de +, para adicionar um novo App.
+  - Selecionarei as seguinte opcoes:
+    - Plataforma: IOS
+    - Nome do meu App.
+    - Idioma Principal: PT-BR
+    - Irei escolher o meu projeto, que acabei de criar, posso indentifica-lo pelo bundle.
+    - Irei colocar o nome do meu app novamente.
+    - Acesso total ou limitado
+  
+Clico em **Criar App**.
+
+Agora irei clicar na janela que havia aparecido antes, clicar em:
+  - **Distribute App**
+  - **App Store Connect**
+  - **Upload**
+  - **Next**
+  - **Automatically manage signing**
+  - **Generate an Apple Distribuiton certificate**
+
+**Caso eu deseje posso exportar o meu certificado e salva-lo em uma pasta caso queira utilizar novamente**
+
+Agora ele ira resumir sobre o App, e caso esteja tudo ok, irei clicar em upload. Para ele enviar o app, pra store.
+
+Agora irei na loja, e poderei clicar em **TestFlight** e aguardar ele carregar o app.
