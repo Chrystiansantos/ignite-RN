@@ -613,3 +613,100 @@ Agora irei na loja, e poderei clicar em **TestFlight** e aguardar ele carregar o
 Dentro da loja irei clciar no meu app, em seguida no canto direito em grupo externo, irei clicar no **+** e irei inserir o nome do grupo de testers, e irei adicionar os emails em seguida.
 
 Apos a insercao do email, irei clicar em adicionar compilacao, e irei selecionar o nosso app. E clicar em proximo.
+
+## Testando com TesstFligth
+
+Primeiramente preciso instalar o app, pra isso basta busca-lo na loja **TestFlight**
+Apos a instalacao, irei no email e clciar em **View in TestFlight**  e serei redirecionado para o app. E irei aceitar, e instalar o App.
+
+## Distribuindo o app em Producao
+
+Irei exportar todas as screenshots do meu layout do figma, pra IOS.
+
+- Irei em App Store e irei enviar as screend shots, baixados do Figma
+- Irei adicionar o texto promocional, que e basicamente um texto curto sobre o app.
+- irei adicionar a descricao, que vai ser sobre o meu app, porem com mais detalhes.
+
+Agora irei em **Compilacao**  e irei selecionar uma compilacão antes de fazer o envio do app. E irei selecionar a versao que ira pra prod.
+Clicar em **Salvar** e Enviar para a revisao.
+
+## Gerando build utilizando Expo
+
+Primeira coisa, que preciso fazer é configurar meu app.json, entao irei abrir o arquivo. E alterar as seguintes informacoes.
+Irei criar uma pasta chamada assets na raiz do projeto. Onde ire deixar os assets do app, (Icon, splash etc)
+
+  - Irei adicionar o icone.
+  - Em seguida as configs de ios e android.
+Ira ficar da seguinte maneira:
+
+
+```json
+{
+  "expo": {
+    "name": "gofinances",
+    "slug": "gofinances",
+    "icon":"./assets/logo.png",
+    "scheme": "gofinances",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.gofinance",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.gofinance",
+      "versionCode": 1
+    }
+  },
+  "name": "gofinances"
+}
+```
+
+## Buid Android
+
+
+Apos fazer as configs no app.json irei ir no terminal e digitar o seguinte comando:
+
+```bash
+❯ expo build:andoid
+```
+
+Na sequencia ele pergunta se desejo gerar um apk, app-bundle, irei escolher oque desejar e ele comecar a gerar.
+
+
+## Buid IOS
+
+Apos fazer as configs no app.json irei ir no terminal e digitar o seguinte comando:
+
+```bash
+❯ expo build:ios
+```
+
+Agora eu posso escolher se eu desejo distribuir na loja ou utilizar no simulador:
+Como desejo distribuir na loja irei selecionar **archive**, e dar enter.
+
+Em seguida ele ira perguntar se eu desejo submeter o app pra loja, entao irei entrar com meu AppleId e senha e ele ja fará todo o processo automatizado.
+
+Em seguida ele pergunta se desejo gerar um certificado ele ira gerar automatico pra min, e das chaves tambem.
+
+No final dele apresenta um resumo e gera o build do app.
+
+Apos a build ele gera um link para eu baixar o **IPA**.
+
+Irei entrar na AppStore, e baixar o app **Transporter**, irei fazer login, irei na minha conta Apple:
+
+ - Irei em App Store connect.
+ - Go to App Store Connet.
+ - Meus Apps.
+ - Sinalzinho de **+**, pra eu adicionar um novo app.
+ - Nome do app
+ - Idioma
+ - id do pacote, escolher o id do pacote que criamos la no **app.json**
+ - Sku, nome do app ou nome do pacote.
+ - Acesso total.
+
+Irei abrir o Transporter. Irei pegar meu arquivo IPA, e irei solta-lo dentro do Transporter e apos clicar em enviar ele seria encaminhado pra loja.
+
+Apos um tempo, irei entrar na loja e selecionar uma versao de compilacao. E clicar em concluido.
