@@ -195,3 +195,147 @@ Agora irei clicar em **Build** a direita novamente. Irei clicar em Homolog. E ir
 
   Irei clicar em **Salvar**
 
+
+# Code Push (OTA)
+
+**Quando faco alteracoes em codigo nativo ou alteracoes de libs nativas, eu preciso enviar o app a loja novamente pra ser feito analise**
+
+## Android
+
+Primeiro passo e instalar o **Code Push** dentro do nosso app.
+
+```bash
+❯ yarn add react-native-code-push
+```
+
+Primeiramente irei abrir o arquivo:
+
+```
+project_name/android/settings.gradle
+```
+No final dele irei acrescentar as seguinte linhas:
+```gradle
+...
+include ':app', ':react-native-code-push'
+project(':react-native-code-push').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-code-push/android/app')
+```
+
+Apos inserir essas 2 linhas irei abrir este outro arquivo:
+
+```
+project_name/android/app/build.gradle
+```
+
+Abaixo desta importacao **apply from: "../../node_modules/react-native/react.gradle"** irei adicionar a seguinte linha:
+
+```gradle
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+```
+
+Agora irei abrir o seguinte arquivo:
+
+```
+project_name/android/app/src/main/java/com/myskills/MainApplication.java
+```
+
+Dentro dele irei adicionar a importarcao
+
+```java
+import com.microsoft.codepush.react.CodePush;
+
+public class MainApplication extends Application implements ReactApplication {
+
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+        
+        // No final da funcao irei adicionar esse trecho de codigo
+        @Override
+        protected String getJSBundleFile() {
+            return CodePush.getJSBundleFile();
+        }
+    };
+}
+```
+
+Irei abrir o seguinte file:
+
+```
+project_name/android/app/build.gradle
+```
+
+Irei pesquisar por **buildTypes** e dentro de **debug** irei adicionar a seguinte line:
+
+``` gradle
+    debug {
+            signingConfig signingConfigs.debug
+            <!-- Linha adicionada -->
+            resValue "string", "CodePushDeploymentKey", '""'
+        }
+```
+
+Logo abaixo de **debug**, apos fechar a chave irei adicionar esta linha:
+
+```gradle
+ releaseStaging {
+            resValue "string", "CodePushDeploymentKey", '"<INSERT_HOMOLOG_KEY>"'
+            matchingFallbacks = ['release']
+        }
+```
+
+Logo abaixo de release Staging dentro de **release** vou adicionar o seguinte trecho antes do fechamento da chave.
+```
+    resValue "string", "CodePushDeploymentKey", '"<INSERT_PRODUCTION_KEY>"'
+```
+
+Irei no **App Center**, vou abrir meu projeto irei clicar em **Distribute -> CodePush** Irei clicar em **Create standard deployment**
+
+Irei clicar na **chave de boca** no canto direito da tela e ele vai me mostrar as 2 chaves, por eu ter um ambiente de prod e homolog.
+
+Apos ter a chave de prod e de homolog irei copia-las e irei atualizar as chaves acima com base nas informacoes recebidas pelo **App Center**
+
+## Utilizando Code Push Android
+
+Irei abrir o meu **App.tsx**, e irei adicionar o seguinte codigo.
+
+```tsx
+import codePush from 'react-native-code-push';
+import { Home } from './src/pages/Home';
+
+function App() {
+
+  useEffect(() => {
+    codePush.sync({
+      installMode: codePush.InstallMode.IMMEDIATE,
+    });
+  }, []);
+  
+  return (
+    <>
+      <StatusBar barStyle="light-content" />
+      <Home />
+    </>
+  );
+}
+
+export default codePush({
+  // Com qual frequencia ele ira verificar por atualizacoes em nosso app
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+})(App);
+```
+
+Irei instalar a CLI do **App Center** global no meu pc.
+
+```bash
+npm install -g appcenter-cli
+```
+
+E agora irei fazer login no **AppCenter**
+
+```bash
+appcenter login
+```
+
+Ele ira abrir uma pagina no navegador com um codigo de autenticacao, irei copiar o codigo informado no navegador e colar no terminal.
+
+```bash
+appcenter codepush release-react -a nome_organizacao/nomeProgeto -d nomeDaBranch
+```
